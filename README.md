@@ -1,1 +1,1 @@
-# Progetto del corso Piattaforme Abilitanti Distribuite, 2013/2014 #
+# Progetto del corso Sistemi Operativi e Laboratorio, 2013/2014 #
