@@ -1,0 +1,22 @@
+# Esercitazione 6 #
+
+Dove si continua a sperimentare la bash e si scrivono i primi script.
+
+## Esercizio 1: esecuzioni periodiche con `cron` ##
+
+## Esercizio 2: `cron` e segnali ##
+
+## Esercizio 3: rimozione periodica dei core file ##
+
+## Esercizio 4: getting started ##
+
+## Esercizio 5: `mycd` ##
+
+## Esercizio 6: `mygzip` ##
+
+## Esercizio 7: `dirdiff` ##
+
+## Esercizio 8: `IFS` ##
+
+Stampare su `stdout` il contenuto della variabile `IFS`.
+

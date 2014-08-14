@@ -1,0 +1,25 @@
+# Esercitazione 5 #
+
+Dove si sperimentano alcuni comandi di base bash.
+
+## Esercizio -1: basics interazione utente ##
+
+## Esercizio 0: man, cat, grep, sort ##
+
+## Esercizio 1: trasformismo ##
+
+## Esercizio 2: trovare i file non acceduti negli ultimi 30 giorni ##
+
+## Esercizio 3: prettyPath ##
+
+## Esercizio 4: personalizzare il prompt ##
+
+## Esercizio 5: aliasing ##
+
+## Esercizio 6: ??? ##
+
+Sapete interpretare il risultato del seguente comando?
+
+    ls -l /proc/$$/fd
+
+## Esercizio 7: magic files and numbers
