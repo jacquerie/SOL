@@ -65,7 +65,7 @@ Scrivere un programma C che legge una sequenza di studenti dal file
 contenente tre stringhe di cratteri separate da '`:`' e terminata da '`\n`'
 secondo il formato
 
-    cognome:nome:matricola
+    cognome:nome:matricola\n
 
 quindi ad esempio
 
@@ -79,7 +79,7 @@ Il programma memorizza i dati relativi a ciascun studente in un array di
 strutture di tipo `studente` opportunamente definito e li stampa in ordine
 alfabetico.
 
-_Suggerimento:_ Per la lettura da file usare `fscanf()` con un'opportuna
+_Suggerimento:_ per la lettura da file usare `fscanf()` con un'opportuna
 stringa di formattazion oppure `fgets()` per leggere fino al primo '`\n`' e
 `strchr()` per localizzare i caratteri separatori '`:`'.
 
@@ -89,9 +89,11 @@ In C è possibile accedere agli argomenti passati sulla linea di comando tramite
 la struttura `argv`, la quale punta ad un array di stringhe. Per farlo è
 necessario dichiarare il `main()` di tipo
 
-    int main (int argc, char *argv[]) {
-            ...
-    }
+```c
+int main (int argc, char *argv[]) {
+	...
+}
+```
 
 in questo modo `argc` conterrà il numero di argomenti passati sulla linea di
 comando, `argv[0]` il nome dell'eseguibile e `argv[1]`, `argv[2]`, ...
