@@ -7,7 +7,7 @@ Dove si sperimenta la realizzazione di un `Makefile` da zero.
 Con riferimento agli esercizi sulle lista dell'Esercitazione 1, definire un
 `Makefile` che contenga
 
-* le regole per generare correttamente `main.o` e lista.o`
+* le regole per generare correttamente `main.o` e `lista.o`
 * la regola PHONY `lib` per generare correttamente la libreria `libList.a`
 * la regola per generare l'eseguibile a partire da oggetti e librerie
 * un target PHONY `cleanall` che elimini gli oggetti e gli eseguibili
