@@ -1,0 +1,108 @@
+# Esercitazione 3 #
+
+Dove si approfondisce la conoscenza delle fasi di preprocessing, compilazione e
+linking, si prova a implementare delle liste generiche in C e si studiano più
+approfonditamente le caratteristiche di `valgrind` e alcune opzioni di `gcc`
+(rassegnandoci all'idea che un programma che passa tutti i test può comunque
+essere scorretto).
+
+## Esercizio 1: getting started — preprocessing, compilazione e linking ##
+
+1. Compilare ed eseguire il seguente programma:
+
+    #include <stdio.h>
+    #inclue <math.h>
+
+    int main (void)
+    {
+      double x = 3.0;
+
+      printf("Radice = %f\n", sqrt(x));
+
+      return 0;
+    }
+
+salvato nel file `ff.c` con
+
+    $ gcc -Wall -pedantic ff.c
+
+Chi segnala un errore? È fallita la fase di preprocessing, compilazione o
+linking? Cosa contiene il modulo oggetto se specifico l'opzione -c? Come si
+risolve il problema?
+
+2. Cosa accade se eliminiamo la seguente linea?
+
+    #include <math.h>
+
+A questo punto cosa va storto? Sapete interpretare i messaggi a video e
+stabilire chi li ha scritti e perché? Viene generato l'eseguibile?
+
+3. Generare il modulo oggetto con
+
+    $ gcc -Wall -pedantic -c ff.c
+
+Utilizzare `objdump`, `nm`, `readelf` per capire cosa contengono la tabella di
+rilocazione, la tabella dei simboli esportati ed esterni, le sezioni data, BSS
+e codice (utilizzare il `man` e cercare su Google).
+
+4. Usare le opzioni `-E` e `-S` di `gcc`: che cosa succede? Cosa accade se specifichiamo il flag `-g` assieme a `-S`?
+
+## Esercizio 2: macro con parametri, macro `SOMMA` ##
+
+Usare le macro con parametri per definire una macro che somma (operatore `+`) i propri argomenti:
+
+    #define SOMMA(X,Y,Z) ...
+
+e testarla in un opportuno `main()`. Valutare le differenze con una funzione di prototipo
+
+    int SOMMA (int X, int Y, int Z);
+
+## Esercizio 3: macro con parametri, macro `FATTORIALE` ##
+
+Scrivere una macro con parametri che calcoli il fattoriale di un numero `N`, passato come parametro, e ne stampi il risultato. Ad esempio posso utilizzare la macro per calcolare il fattoriale di 4 + 1 con
+
+    FATTORIALE(4+1)
+
+La macro non deve fare assunzioni su come verranno passati i parametri. Cosa accade annidando due chiamate della macro? Ad esempio
+
+    FATTORIALE(FATTORIALE(4+1))
+
+## Esercizio 4: liste generiche in C ##
+
+## Esercizio 5: approfondiamo l'uso di `valgrind` (e alcune opzioni utili di `gcc`) ##
+
+Compilare ed eseguire il seguente codice usando `valgrind`:
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <time.h>
+
+    #define N 5
+
+    int main (void)
+    {
+      int i, *a;
+     
+      if ((a = malloc(N*sizeof(int))) == NULL)
+        return EXIT_FAILURE; 
+
+      srand(time(NULL));
+
+      i = 0;
+      while (i < N) {
+        a[++i] = rand() % 2;
+        printf("iterazione %d\n", i);
+      }
+
+      printf("exiting ...\n");
+      return EXIT_SUCCESS;
+}
+
+che problemi vengono segnalati? Perché?
+
+Provare a compilare (dopo averlo salvato in `file.c`) usando le seguenti opzioni di `gcc` che permettono di rilevare altri errori statici:
+
+    $ gcc -O -pedantic -Wall -Wextra -Wformat=2 -ggdb -o exe file.c
+
+viene segnalato qualcosa? Perché?
