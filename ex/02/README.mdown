@@ -129,7 +129,9 @@ e trasforma il valore numerico in un messaggio testuale comprensibile
 all'utente (vedere `man perror` per il suo uso). È possibile manipolare `errno`
 da programma includendo l'header `errno.h` con
 
-    #include <errno.h>
+```c
+#include <errno.h>
+```
 
 L'esercizio richiede di assegnare a `errno` i valori `EINTR`, `EPERM` ed
 `EBUSY` e stampare i corrispondenti messaggi d'errore usando `perror()`.
