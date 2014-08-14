@@ -12,25 +12,29 @@ debugger.
 Usare il debugger [ddd](http://www.gnu.org/software/ddd/manual) per trovare che
 cosa non va nel seguente programma C:
 
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <unistd.h>
-    #include <time.h>
-    
-    #define N 5
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 
-    int main(void)
-    {
-      int a[N];
-      int i;
-      srand(time(NULL));
-      i=0;
-      while (i < N) {
-        a[++i] = rand() % 2;
-        printf("iterazione %d\n",i);
-      } 
-      printf("exiting ...\n"); 
-     }
+#define N 5
+
+int main(void)
+{
+	int a[N];
+	int i;
+	srand(time(NULL));
+
+	i=0;
+	while (i < N) {
+		a[++i] = rand() % 2;
+		printf("iterazione %d\n",i);
+	}
+
+	printf("exiting ...\n"); 
+}
+```
 
 In pratica il codice, salvato in `"file.c"`, compilato con
 
@@ -62,24 +66,28 @@ due programmi C in
 Implementare in C le seguenti funzioni che lavorano su liste concatenate di
 interi di tipo:
 
-    typedef struct nodo {
-      int valore;
-      struct nodo *next;
-    } nodo;
+```c
+typedef struct nodo {
+	int valore;
+	struct nodo *next;
+} nodo;
 
-    typedef nodo *lista;
+typedef nodo *lista;
+```
 
 e definire le seguenti funzioni che operano sulla lista:
 
-    /** crea una lista vuota
-     *  \retval NULL il puntatore alla lista vuota
-     */
-    lista newList (void);
+```c
+/** crea una lista vuota
+ *  \retval NULL il puntatore alla lista vuota
+ */
+lista newList (void);
 
-    /** dealloca la lista
-     *  \param l la lista
-     */
-    void freeList (lista l);
+/** dealloca la lista
+ *  \param l la lista
+ */
+void freeList (lista l);
+```
 
 Testare il funzionamento delle funzioni implementate con un opportuno `main()`.
 
@@ -87,20 +95,22 @@ Testare il funzionamento delle funzioni implementate con un opportuno `main()`.
 
 Usare le liste dell'esercizio 1 implementare le seguenti funzioni:
 
-    /** trasforma una lista applicando a ogni elemento la funzione f
-     *  \param l la lista
-     *  \param f la funzione da mappare
-     */
-    void mapList (int (*f) (int), lista l);
+```c
+/** trasforma una lista applicando a ogni elemento la funzione f
+ *  \param l la lista
+ *  \param f la funzione da mappare
+ */
+void mapList (int (*f) (int), lista l);
 
-    /** combina gli elementi della lista l usando un operatore binario associativo
-     *  \param l la lista
-     *  \param f l'operatore binario
-     *  \param e l'elemento neutro di f
-     *
-     *  \return la 'somma' degli elementi di l secondo f (l1, f(l2, f(... f (ln, e))))
-     */
-    int reduceList (int (*f) (int, int), int e, lista l);
+/** combina gli elementi della lista l usando un operatore binario associativo
+ *  \param l la lista
+ *  \param f l'operatore binario
+ *  \param e l'elemento neutro di f
+ *
+ *  \return la 'somma' degli elementi di l secondo f (l1, f(l2, f(... f (ln, e))))
+ */
+int reduceList (int (*f) (int, int), int e, lista l);
+```
 
 Testare il risultato con un opportuno `main()`.
 
