@@ -10,19 +10,19 @@ essere scorretto).
 
 * Compilare ed eseguire il seguente programma:
 
+```
+#include <stdio.h>
+#include <math.h>
 
-    #include <stdio.h>
-    #include <math.h>
+int main (void)
+{
+  double x = 3.0;
 
-    int main (void)
-    {
-      double x = 3.0;
+  printf("Radice = %f\n", sqrt(x));
 
-      printf("Radice = %f\n", sqrt(x));
-
-      return 0;
-    }
-
+  return 0;
+}
+```
 
 salvato nel file `ff.c` con
 
@@ -34,7 +34,9 @@ risolve il problema?
 
 * Cosa accade se eliminiamo la seguente linea?
 
-    #include <math.h>
+```
+#include <math.h>
+```
 
 A questo punto cosa va storto? Sapete interpretare i messaggi a video e
 stabilire chi li ha scritti e perché? Viene generato l'eseguibile?
