@@ -26,7 +26,7 @@ cosa non va nel seguente programma C:
       srand(time(NULL));
       i=0;
       while (i < N) {
-        a[++i]=rand()%2;
+        a[++i] = rand() % 2;
         printf("iterazione %d\n",i);
       } 
       printf("exiting ...\n"); 
