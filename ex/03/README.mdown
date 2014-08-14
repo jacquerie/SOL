@@ -53,25 +53,97 @@ e codice (utilizzare il `man` e cercare su Google).
 
 ## Esercizio 2: macro con parametri, macro `SOMMA` ##
 
-Usare le macro con parametri per definire una macro che somma (operatore `+`) i propri argomenti:
+Usare le macro con parametri per definire una macro che somma (operatore `+`) i
+propri argomenti:
 
     #define SOMMA(X,Y,Z) ...
 
-e testarla in un opportuno `main()`. Valutare le differenze con una funzione di prototipo
+e testarla in un opportuno `main()`. Valutare le differenze con una funzione di
+prototipo
 
     int SOMMA (int X, int Y, int Z);
 
 ## Esercizio 3: macro con parametri, macro `FATTORIALE` ##
 
-Scrivere una macro con parametri che calcoli il fattoriale di un numero `N`, passato come parametro, e ne stampi il risultato. Ad esempio posso utilizzare la macro per calcolare il fattoriale di 4 + 1 con
+Scrivere una macro con parametri che calcoli il fattoriale di un numero `N`,
+passato come parametro, e ne stampi il risultato. Ad esempio posso utilizzare
+la macro per calcolare il fattoriale di 4 + 1 con
 
     FATTORIALE(4+1)
 
-La macro non deve fare assunzioni su come verranno passati i parametri. Cosa accade annidando due chiamate della macro? Ad esempio
+La macro non deve fare assunzioni su come verranno passati i parametri. Cosa
+accade annidando due chiamate della macro? Ad esempio
 
     FATTORIALE(FATTORIALE(4+1))
 
 ## Esercizio 4: liste generiche in C ##
+
+In questo esercizio si richiede di realizzare alcune funzioni che lavorano su
+liste generiche in C. Una lista generica è rappresentata dalle seguenti
+`struct`:
+
+    typedef struct elem_t {
+      void *key;
+      struct elem_t *next;
+    } elem_t;
+
+    typedef struct list_t {
+      elem_t *head;
+      int (*compare) (void*, void*);
+      void* (*copyk) (void*); 
+    } list_t;
+
+la prima struttura (`elem_t`) rappresenta un nodo della lista generica. Ogni
+nodo contiene una chiave `key` che può avere tipo qualsiasi. La seconda
+struttura (`list_t`) permette di definire una particolare lista a partire da
+quella generica. Per farlo bisogna fornire due funzioni:
+
+* `compare` permette di confrontare due chiavi, ritorna 0 se sono uguali, un valore diverso da 0 altrimenti
+* `copyk` crea una copia della chiave (allocando la memoria necessaria) e ritorna il puntatore alla copia (se tutto è andato bene) o `NULL` (se si è verificato un errore).
+
+Si chiede di realizzare le funzioni che permettono di creare o distruggere una
+lista generica e quelle per inserire (eventualmente in modo ordinato) ed
+estrarre un elemento generico. Realizzare un `main()` di test che prova a
+istanziare la lista in due versioni: una prima a valore interi usando le
+seguenti funzioni per il confronto e la copia:
+
+    /** funzione di confronto per lista di interi
+     *  \param a puntatore intero da confrontare
+     *  \param b puntatore intero da confrontare
+     *
+     *  \retval 0 se sono uguali
+     *  \retval p (p != 0) altrimenti
+     */
+    int compare_int (void *a, void *b)
+    {
+      int *_a, *_b;
+
+      _a = (int*) a;
+      _b = (int*) b;
+
+      return ((*_a) - (*_b));
+    }
+
+    /** funzione di copia di un intero 
+     *  \param a puntatore intero da copiare
+     *
+     *  \retval NULL se si sono verificati errori
+     *  \retval p puntatore al nuovo intero allocato (alloca memoria)
+     */
+    void * copy_int(void *a)
+    {
+      int * _a;
+ 
+      if ((_a = malloc(sizeof(int))) == NULL)
+        return NULL;
+ 
+      *_a = * (int*) a;
+ 
+      return (void*) _a;
+    }
+
+e una seconda che ha come chiavi stringhe usando analoghe funzioni per la copia
+e il confronto.
 
 ## Esercizio 5: approfondiamo l'uso di `valgrind` (e alcune opzioni utili di `gcc`) ##
 
