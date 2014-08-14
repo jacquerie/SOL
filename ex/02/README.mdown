@@ -60,6 +60,29 @@ memoria non allocata o già deallocata.
 
 ## Esercizio 3: lettura e scrittura su file con `stdio.h` ##
 
+Scrivere un programma C che legge una sequenza di studenti dal file
+`anagrafe_studenti`. Ogni studente è memorizzato su file in una singola linea
+contenente tre stringhe di cratteri separate da '`:`' e terminata da '`\n`'
+secondo il formato
+
+    cognome:nome:matricola
+
+quindi ad esempio
+
+    ...
+    Rossi:Mario:234445
+    Bixio:Nino:435678
+    Garibaldi:Giuseppe:787899
+    ...
+
+Il programma memorizza i dati relativi a ciascun studente in un array di
+strutture di tipo `studente` opportunamente definito e li stampa in ordine
+alfabetico.
+
+_Suggerimento:_ Per la lettura da file usare `fscanf()` con un'opportuna
+stringa di formattazion oppure `fgets()` per leggere fino al primo '`\n`' e
+`strchr()` per localizzare i caratteri separatori '`:`'.
+
 ## Esercizio 4: lettura e scrittura su file passato come argomento ##
 
 ## Esercizio 5: Manipolare `errno` e uso di `perror()` ##
