@@ -2,9 +2,9 @@
 
 Dove si sperimentano alcuni comandi di base bash.
 
-## Esercizio -1: basics interazione utente ##
+## Esercizio -1: interazione utente di base##
 
-## Esercizio 0: man, cat, grep, sort ##
+## Esercizio 0: `man`, `cat`, `grep`, `sort` ##
 
 ## Esercizio 1: trasformismo ##
 
@@ -19,7 +19,7 @@ Dove si sperimentano alcuni comandi di base bash.
 ## Esercizio 6: ??? ##
 
 Sapete interpretare il risultato del seguente comando?
-
-    ls -l /proc/$$/fd
-
+```
+ls -l /proc/$$/fd
+```
 ## Esercizio 7: magic files and numbers
