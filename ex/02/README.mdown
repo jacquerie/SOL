@@ -18,21 +18,21 @@ Per fare questo procedere come segue:
 * inserire la chiamata alla funzione di libreria `mtrace()` all'inizio della parte di programma C che vogliamo verificare
 * inserire la chiamata alla funzione di libreria `muntrace()` alla fine della parte del programma C che vogliamo verificare
 * compilare il file da verificare con opzione `-g` per includere le informazioni di debugging. Ad esempio se il mio file si chiama `main.c` posso compilare con
-
-    $ gcc -Wall -pedantic -g -o prova main.c -lList -L
-
+```
+$ gcc -Wall -pedantic -g -o prova main.c -lList -L
+```
 * settare la variabile di ambiente `MALLOC_TRACE` al path del file in cui vogliamo che la `mtrace()` registri le informazioni sugli accessi di memoria. Ad esempio se voglio registrare le informazioni nel file `./mtrace.out` devo usare il comando
-
-    $ export MALLOC_TRACE=./mtrace.out
-
+```
+$ export MALLOC_TRACE=./mtrace.out
+```
 * eseguire, nel nostro esempio con
-
-    $ ./prova
-
+```
+$ ./prova
+```
 * dopo l'esecuzione nel file `./mtrace.out` sono registrati gli accessi in formato testuale non facilmente comprensibile. Interpretarlo con l'utility `mtrace`. Ad esempio, sempre riferendosi al nostro esempio, occorre invocare
-
-    $ mtrace ./prova ./mtrace.out
-
+```
+$ mtrace ./prova ./mtrace.out
+```
 questo risponderà `No memory leaks` se tutta la memoria è stata deallocata o
 fornirà indicazioni su dove è stata allocata la memoria rimasta da deallocare.
 
@@ -47,13 +47,13 @@ allocata e situazioni simili.
 Per fare questo procedere come segue:
 
 * compilare il file da verificare con opzione `-g` per includere le informazioni di debugging. Ad esempio se il mio file si chiama `main.c` posso compilare con
-
-    $ gcc -Wall -pedantic -g -o prova main.c
-
+```
+$ gcc -Wall -pedantic -g -o prova main.c
+```
 * eseguire
-
-    $ valgrind ./prova
-
+```
+$ valgrind ./prova
+```
 In questo modo a schermo verranno riportate le infrazioni rilevate. Ad esempio,
 "`invalid read`" e "`invalid write`" sono accessi in letture o scrittura a
 memoria non allocata o già deallocata.
@@ -64,17 +64,17 @@ Scrivere un programma C che legge una sequenza di studenti dal file
 `anagrafe_studenti`. Ogni studente è memorizzato su file in una singola linea
 contenente tre stringhe di cratteri separate da '`:`' e terminata da '`\n`'
 secondo il formato
-
-    cognome:nome:matricola\n
-
+```
+cognome:nome:matricola\n
+```
 quindi ad esempio
-
-    ...
-    Rossi:Mario:234445
-    Bixio:Nino:435678
-    Garibaldi:Giuseppe:787899
-    ...
-
+```
+...
+Rossi:Mario:234445
+Bixio:Nino:435678
+Garibaldi:Giuseppe:787899
+...
+```
 Il programma memorizza i dati relativi a ciascun studente in un array di
 strutture di tipo `studente` opportunamente definito e li stampa in ordine
 alfabetico.
@@ -99,17 +99,17 @@ in questo modo `argc` conterrà il numero di argomenti passati sulla linea di
 comando, `argv[0]` il nome dell'eseguibile e `argv[1]`, `argv[2]`, ...
 conterrano invece gli argomenti passati sulla linea di comando. Ad esempio, se
 ho compilato il mio programma in un eseguibile `prova`:
-
-    $ ./prova pippo pluto paperone
-
+```
+$ ./prova pippo pluto paperone
+```
 `argc` varrà 4, `argv[0]` conterrà `./prova`, `argv[1]` conterrà `pippo`,
 `argv[2]` `pluto e `argv[3]` `paperone`.
 
 Si richiede di modificare l'esercizio 3 in modo da realizzare il comando
 `leggistud`
-
-    $ leggistud nome_file
-
+```
+$ leggistud nome_file
+```
 che ordina gli studenti nel file `nome_file` passato come primo parametro. Fare
 in modo di stampare un opportuno messaggio di uso se invocato con un numero di
 parametri diverso da 2.
@@ -120,9 +120,9 @@ In C la maggior parte delle funzioni di libreria che segnalano un errore
 settano anche la variabile globale `errno` con dei codici definiti da diversi
 standard. I codici sono valori interi, definiti da opportune macro. Per
 dettagli sul loro valore eseguire
-
-    $ man errno
-
+```
+$ man errno
+```
 Dopo l'esecuzione di una funzione di libreria che importa `errno` è possibile
 chiamare la funzione di libreria `perror()` che ispeziona il valore di `errno`
 e trasforma il valore numerico in un messaggio testuale comprensibile
