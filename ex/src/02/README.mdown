@@ -1,0 +1,65 @@
+# Esercitazione 2 #
+
+In questa esercitazione si sperimenta qualche tool e si approfondiscono
+caratteristiche del C sequenziale: `errno`, `perror`, eccetera.
+
+## Esercizio 1: `mtrace` ##
+
+Verificare gli accessi in memoria compiuti dalle funzioni su liste di interi
+della libreria `libList.a` utilizzando la funzione `mtrace()` e l'utility
+`mtrace`. Questi strumenti tracciano le azioni di allocazione e deallocazione
+di memoria compiute dal programma per verificare la presenza di _memory leak_,
+cioè memoria non deallocata.
+
+Per fare questo procedere come segue:
+
+* leggere le informazioni in `man 3 mtrace`
+* includere l'header `mcheck.h`
+* inserire la chiamata alla funzione di libreria `mtrace()` all'inizio della parte di programma C che vogliamo verificare
+* inserire la chiamata alla funzione di libreria `muntrace() alla fine della parte del programma C che vogliamo verificare
+* compilare il file da verificare con opzione `-g` per includere le informazioni di debugging. Ad esempio se mio file si chiama `main.c` posso compilare con
+
+    $ gcc -Wall -pedantic -g -o prova main.c -lList -L
+
+* settare la variabile di ambiente `MALLOC_TRACE` al path del file in cui vogliamo che la `mtrace()` registri le informazioni sugli accessi di memoria. Ad esempio se voglio registrare le informazioni nel file `./mtrace.out` devo usare il comando
+
+    $ export MALLOC_TRACE=./mtrace.out
+
+* eseguire, nel nostro esempio con
+
+    $ ./prova
+
+* dopo l'esecuzione nel file `./mtrace.out` sono registrati gli accessi in formato testuale non facilmente comprensibile. Interpretarlo con l'utility `mtrace`. Ad esempio, sempre riferendosi al nostro esempio, occorre invocare
+
+    $ mtrace ./prova ./mtrace.out
+
+questo risponderà `No memory leaks` se tutta la memoria è stata deallocata o
+fornirà indicazioni su dove è stata allocata la memoria rimasta da deallocare.
+
+## Esercizio 2: verificare gli accessi in memoria con `valgrind` ##
+
+Verificare la correttezza degli accessi ai puntatori compiuti dalle funzioni su
+liste di interi della libreria `libList.a` utilizzando `valgrind`. Questo
+strumento permette fra l'altro di capire se tutte le variabili sono
+inizializzate prima del loro uso, se accediamo a memoria già deallocata o mai
+allocata e situazioni simili.
+
+Per fare questo procedere come segue:
+
+* compilare il file da verificare con opzione `-g` per includere le informazioni di debugging. Ad esempio se il mio file si chiama `main.c` posso compilare con
+
+    $ gcc -Wall -pedantic -g -o prova main.c
+
+* eseguire
+
+    $ valgrind ./prova
+
+In questo modo a schermo verranno riportate le infrazioni rilevate. Ad esempio,
+"`invalid read`" e "`invalid write`" sono accessi in letture o scrittura a
+memoria non allocata o già deallocata.
+
+## Esercizio 3: lettura e scrittura su file con `stdio.h` ##
+
+## Esercizio 4: lettura e scrittura su file passato come argomento ##
+
+## Esercizio 5: Manipolare `errno` e uso di `perror()` ##
