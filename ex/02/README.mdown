@@ -16,8 +16,8 @@ Per fare questo procedere come segue:
 * leggere le informazioni in `man 3 mtrace`
 * includere l'header `mcheck.h`
 * inserire la chiamata alla funzione di libreria `mtrace()` all'inizio della parte di programma C che vogliamo verificare
-* inserire la chiamata alla funzione di libreria `muntrace() alla fine della parte del programma C che vogliamo verificare
-* compilare il file da verificare con opzione `-g` per includere le informazioni di debugging. Ad esempio se mio file si chiama `main.c` posso compilare con
+* inserire la chiamata alla funzione di libreria `muntrace()` alla fine della parte del programma C che vogliamo verificare
+* compilare il file da verificare con opzione `-g` per includere le informazioni di debugging. Ad esempio se il mio file si chiama `main.c` posso compilare con
 
     $ gcc -Wall -pedantic -g -o prova main.c -lList -L
 
