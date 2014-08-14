@@ -67,5 +67,7 @@ int main (void)
 
 	printf("%d\n", reduceList(sum, 0, l));
 
+	freeList(l);
+
 	return 0;
 }
