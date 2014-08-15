@@ -37,23 +37,23 @@ int main(void)
 ```
 
 In pratica il codice, salvato in `"file.c"`, compilato con
-
-    gcc -Wall -pedantic -o ese file.c
-
+```
+gcc -Wall -pedantic -o ese file.c
+```
 ed eseguito con
-
-    $ ./ese
-
+```
+$ ./ese
+```
 non è formalmente corretto. Per eseguire in modalità interattiva di debugging:
 
 * Compilare con opzione `"-g"`, ad esempio
-
-    gcc -Wall -pedantic -g -o ese file.c
-
+```
+gcc -Wall -pedantic -g -o ese file.c
+```
 * Lanciare l'eseguibile usando il debugger come in
-
-    $ ddd ./ese
-
+```
+$ ddd ./ese
+```
 a questo punto è possibile fermare il programma durante la sua esecuzione,
 ispezionare le variabili, ecc...
 
@@ -132,18 +132,18 @@ Procedere nel modo seguente:
 * Definire un file `lista.c` che contiene il codice che implementa le funzioni
 
 * Generare il modulo oggetto `lista.o` da inserire nella libreria con il comando `gcc` come segure (si utilizza l'opzione `-c` per passare dal file sorgente `.c` al file oggetto `.o`)
-
-    $ gcc -Wall -pedantic -c lista.c
-
+```
+$ gcc -Wall -pedantic -c lista.c
+```
 * Creare la libreria con il comando `ar` come segue (lo scopo di `ar` è impacchettare tutti i file `.o` passati come argomento e impacchettarli in un'unica libreria `.a`)
-
-    $ ar -r libList.a lista.o
-
+```
+$ ar -r libList.a lista.o
+```
 L'opzione `-r` sta per _replace_ (se il file non esiste nella libreria, viene
 aggiunto; altrimenti rimpiazza precedenti versioni già esistenti). Con il
 comando
-
-    $ ar -t libList.a
-
+```
+$ ar -t libList.a
+```
 è possibile elencare i file da cui è composta la nostra libreria (in questo
 caso uno solo).
