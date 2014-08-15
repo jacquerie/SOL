@@ -2,19 +2,98 @@
 
 Dove si continua a sperimentare la bash e si scrivono i primi script.
 
-## Esercizio 1: esecuzioni periodiche con `cron` ##
+## Esercizio 1: esecuzioni periodiche con `crontab` ##
+
+Utilizzare `crontab` per fare in modo di ricevere una volta al minuto una email
+contenente la stringa "Pippo Pluto e Paperone...".
+
+`crontab` permette di registrare dei comandi e delle periodicità in un file
+(che chiameremeo `crontabFile`) e poi di registrare il file in modo che il cron
+system di Linux mandi in esecuzione il comando automaticamente agli istanti
+prefissati. Il `crontabFile` è costituito da una sequenza di linee di sei campi
+
+```
+minuti ore giorni mesi giorniDellaSettimana comando
+```
+
+I primi cinque servono a specificare la periodicità (0-59 per i minuti, 0-23
+per le ore, 1-31 per i giorni, 1-12 per i mesi e 1-7 per i giorni della
+settimana) mentre il comando è un qualsiasi comando UNIX. Ogni volta che il
+tempo corrente del sistema corrisponde a una richiesta di periodicità il
+comando UNIX viene eseguito e lo `stdout` del comando viene inviato all'utente
+che lo ha registrato via email. Se in un campo si specifica '`*`' il matching è sempre verificato. Ad esempio:
+
+```
+$ cat crontab.cron
+0   8   *   *   1    echo "Lunedi' mattina ore 8"
+*   *   *   *   *    echo "E' passato un minuto"
+```
+
+In questo caso il primo comando viene eseguito ogni lunedì alle 8 mentre il
+secondo viene eseguito ogni minuto. Consultare `man crontab` per capire come
+effettuare la registrazione del `cronfile`.
 
 ## Esercizio 2: `cron` e segnali ##
 
+Usare `crontab` e `kill` per inviare un segnale `SIGUSR1` ogni minuto alla
+shell corrente ed usare `trap` per far stampare alla shell un breve messaggio
+ogni volta che riceve un segnale `SIGUSR1`.
+
 ## Esercizio 3: rimozione periodica dei core file ##
+
+Utilizzare `crontab` per rimuovere tutti i file di core di un determinato
+utente all'inizio di ogni giornata lavorativa.
+
+_Suggerimento:_ per non fare troppi danni, realizzare prima una versione che
+lista semplicemente i file da rimuovere senza cancellare niente.
 
 ## Esercizio 4: getting started ##
 
+Scrivere uno script Bash `gettingStarted` che stampi il suo nome, il numero
+degli argomenti e i primi tre argomenti (se esistono). Ad esempio:
+```
+$ ./gettingStarted mio tuo suo
+Script ./gettingStarted con 3 argomenti
+Primo parametro mio
+Scondo parametro tuo
+Terzo parametro suo
+```
+
 ## Esercizio 5: `mycd` ##
+
+Scrivere una funzione Bash che implementa una versione personalizzata del
+builtin `cd` in cui prima viene eseguito il cambio di directory per mezzo del
+normale builtin `cd` e poi viene eseguita una stampa formattata che ricorda la
+directory di partenza e quella di arrivo. Ad esempio:
+```
+$ mycd PROVA
+mycd: successo! /home/s/susanna --> /home/s/susanna/PROVA
+bash:~/PROVA$
+```
+
+Se il cambio della working directory non ha successo `mycd` stampa il normale
+messaggio di errore del builtin `cd`.
 
 ## Esercizio 6: `mygzip` ##
 
+`mygzip` è uno script Bash che prende come parametro una directory e una lista di file
+
+```
+$ mygzip dir file1 ... filen
+```
+
+e applica il comando `gzip` a tutti i `file1 ... filen` presenti nella directory `dir`.
+
 ## Esercizio 7: `dirdiff` ##
+
+Realizzare lo script `dirdiff` che prende tre parametri
+```
+$ dirdiff dir1 dir2 dir3
+```
+
+ed effettua la differenza fra la directory `dir1` e la directory `dir2`
+scrivendo il risultato in `dir3`. In pratica copia in `dir3` ogni file di
+`dir1` che *non* è presente in `dir2` con lo stesso nome.
 
 ## Esercizio 8: `IFS` ##
 
