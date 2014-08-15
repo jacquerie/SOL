@@ -1,0 +1,35 @@
+# Esercitazione 8 #
+
+Questa esercitazione tratta le system call che operano su file.
+
+Per gli esercizi 1, 2, 3, 4 *deve* essere prodotto un opportuno `Makefile` con
+target per la creazione di oggetti ed eseguibili e per l'esecuzione del test
+automatico del codice prodotto.
+
+L'accesso ai file e alle directory deve essere effettuato *esclusivamente*
+utilizzando le system call viste a lezione. La soluzione *deve* includere la
+gestione degli errori con una delle tecniche discusse.
+
+## Esercizio 1: `mycat` ##
+
+## Esercizio 2: `mycat` (2) ##
+
+## Esercizio 3: `mystat` ##
+
+## Esercizio 4: `myfnd` ##
+
+Realizzare il comando `myfnd`
+
+```
+myfnd dir namef
+```
+
+che cerca ricorsivamente il file `namef` nel sottoalbero radicato nella
+directory `dir`.  Per ogni file `namef` trovato stampa il path assoluto della
+directory in cui è stato trovato e la data dell'ultima modifica. Ad esempio
+
+```
+$ myfnd . gigi
+/home/susanna/bin/gigi  2007-03-16 14:00
+/home/susanna/bin/xxx/gigi  2006-07-10 13:10
+```
