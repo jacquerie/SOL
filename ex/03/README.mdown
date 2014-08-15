@@ -10,31 +10,30 @@ essere scorretto).
 
 * Compilare ed eseguire il seguente programma:
 
-```
+```c
 #include <stdio.h>
 #include <math.h>
 
 int main (void)
 {
-  double x = 3.0;
+	double x = 3.0;
 
-  printf("Radice = %f\n", sqrt(x));
+	printf("Radice = %f\n", sqrt(x));
 
-  return 0;
+	return 0;
 }
 ```
 
 salvato nel file `ff.c` con
-
-    $ gcc -Wall -pedantic ff.c
-
+```
+$ gcc -Wall -pedantic ff.c
+```
 Chi segnala un errore? È fallita la fase di preprocessing, compilazione o
 linking? Cosa contiene il modulo oggetto se specifico l'opzione -c? Come si
 risolve il problema?
 
 * Cosa accade se eliminiamo la seguente linea?
-
-```
+```c
 #include <math.h>
 ```
 
@@ -42,9 +41,9 @@ A questo punto cosa va storto? Sapete interpretare i messaggi a video e
 stabilire chi li ha scritti e perché? Viene generato l'eseguibile?
 
 * Generare il modulo oggetto con
-
-    $ gcc -Wall -pedantic -c ff.c
-
+```
+$ gcc -Wall -pedantic -c ff.c
+```
 Utilizzare `objdump`, `nm`, `readelf` per capire cosa contengono la tabella di
 rilocazione, la tabella dei simboli esportati ed esterni, le sezioni data, BSS
 e codice (utilizzare il `man` e cercare su Google).
@@ -55,44 +54,44 @@ e codice (utilizzare il `man` e cercare su Google).
 
 Usare le macro con parametri per definire una macro che somma (operatore `+`) i
 propri argomenti:
-
-    #define SOMMA(X,Y,Z) ...
-
+```c
+#define SOMMA(X,Y,Z) ...
+```
 e testarla in un opportuno `main()`. Valutare le differenze con una funzione di
 prototipo
-
-    int SOMMA (int X, int Y, int Z);
-
+```c
+int SOMMA (int X, int Y, int Z);
+```
 ## Esercizio 3: macro con parametri, macro `FATTORIALE` ##
 
 Scrivere una macro con parametri che calcoli il fattoriale di un numero `N`,
 passato come parametro, e ne stampi il risultato. Ad esempio posso utilizzare
 la macro per calcolare il fattoriale di 4 + 1 con
-
-    FATTORIALE(4+1)
-
+```c
+FATTORIALE(4+1)
+```
 La macro non deve fare assunzioni su come verranno passati i parametri. Cosa
 accade annidando due chiamate della macro? Ad esempio
-
-    FATTORIALE(FATTORIALE(4+1))
-
+```c
+FATTORIALE(FATTORIALE(4+1))
+```
 ## Esercizio 4: liste generiche in C ##
 
 In questo esercizio si richiede di realizzare alcune funzioni che lavorano su
 liste generiche in C. Una lista generica è rappresentata dalle seguenti
 `struct`:
+```c
+typedef struct elem_t {
+	void *key;
+	struct elem_t *next;
+} elem_t;
 
-    typedef struct elem_t {
-      void *key;
-      struct elem_t *next;
-    } elem_t;
-
-    typedef struct list_t {
-      elem_t *head;
-      int (*compare) (void*, void*);
-      void* (*copyk) (void*); 
-    } list_t;
-
+typedef struct list_t {
+	elem_t *head;
+	int (*compare) (void*, void*);
+	void* (*copyk) (void*); 
+} list_t;
+```
 la prima struttura (`elem_t`) rappresenta un nodo della lista generica. Ogni
 nodo contiene una chiave `key` che può avere tipo qualsiasi. La seconda
 struttura (`list_t`) permette di definire una particolare lista a partire da
@@ -106,41 +105,42 @@ lista generica e quelle per inserire (eventualmente in modo ordinato) ed
 estrarre un elemento generico. Realizzare un `main()` di test che prova a
 istanziare la lista in due versioni: una prima a valore interi usando le
 seguenti funzioni per il confronto e la copia:
+```c
+/** funzione di confronto per lista di interi
+ *  \param a puntatore intero da confrontare
+ *  \param b puntatore intero da confrontare
+ *
+ *  \retval 0 se sono uguali
+ *  \retval p (p != 0) altrimenti
+ */
+int compare_int (void *a, void *b)
+{
+	int *_a, *_b;
 
-    /** funzione di confronto per lista di interi
-     *  \param a puntatore intero da confrontare
-     *  \param b puntatore intero da confrontare
-     *
-     *  \retval 0 se sono uguali
-     *  \retval p (p != 0) altrimenti
-     */
-    int compare_int (void *a, void *b)
-    {
-      int *_a, *_b;
+	_a = (int*) a;
+	_b = (int*) b;
 
-      _a = (int*) a;
-      _b = (int*) b;
+	return ((*_a) - (*_b));
+}
 
-      return ((*_a) - (*_b));
-    }
+/** funzione di copia di un intero 
+ *  \param a puntatore intero da copiare
+ *
+ *  \retval NULL se si sono verificati errori
+ *  \retval p puntatore al nuovo intero allocato (alloca memoria)
+ */
+void * copy_int(void *a)
+{
+	int * _a;
 
-    /** funzione di copia di un intero 
-     *  \param a puntatore intero da copiare
-     *
-     *  \retval NULL se si sono verificati errori
-     *  \retval p puntatore al nuovo intero allocato (alloca memoria)
-     */
-    void * copy_int(void *a)
-    {
-      int * _a;
+	if ((_a = malloc(sizeof(int))) == NULL)
+		return NULL;
+
+	*_a = * (int*) a;
  
-      if ((_a = malloc(sizeof(int))) == NULL)
-        return NULL;
- 
-      *_a = * (int*) a;
- 
-      return (void*) _a;
-    }
+	return (void*) _a;
+}
+```
 
 e una seconda che ha come chiavi stringhe usando analoghe funzioni per la copia
 e il confronto.
@@ -148,37 +148,38 @@ e il confronto.
 ## Esercizio 5: approfondiamo l'uso di `valgrind` (e alcune opzioni utili di `gcc`) ##
 
 Compilare ed eseguire il seguente codice usando `valgrind`:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <unistd.h>
-    #include <time.h>
+#define N 5
 
-    #define N 5
+int main (void)
+{
+	int i, *a;
 
-    int main (void)
-    {
-      int i, *a;
-     
-      if ((a = malloc(N*sizeof(int))) == NULL)
-        return EXIT_FAILURE; 
+	if ((a = malloc(N*sizeof(int))) == NULL)
+		return EXIT_FAILURE; 
 
-      srand(time(NULL));
+	srand(time(NULL));
 
-      i = 0;
-      while (i < N) {
-        a[++i] = rand() % 2;
-        printf("iterazione %d\n", i);
-      }
+	i = 0;
+	while (i < N) {
+		a[++i] = rand() % 2;
+		printf("iterazione %d\n", i);
+	}
 
-      printf("exiting ...\n");
-      return EXIT_SUCCESS;
+	printf("exiting ...\n");
+	return EXIT_SUCCESS;
 }
+```
 
 che problemi vengono segnalati? Perché?
 
 Provare a compilare (dopo averlo salvato in `file.c`) usando le seguenti opzioni di `gcc` che permettono di rilevare altri errori statici:
-
-    $ gcc -O -pedantic -Wall -Wextra -Wformat=2 -ggdb -o exe file.c
-
+```
+$ gcc -O -pedantic -Wall -Wextra -Wformat=2 -ggdb -o exe file.c
+```
 viene segnalato qualcosa? Perché?
