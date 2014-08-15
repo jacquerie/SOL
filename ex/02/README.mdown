@@ -80,7 +80,7 @@ strutture di tipo `studente` opportunamente definito e li stampa in ordine
 alfabetico.
 
 _Suggerimento:_ per la lettura da file usare `fscanf()` con un'opportuna
-stringa di formattazion oppure `fgets()` per leggere fino al primo '`\n`' e
+stringa di formattazione oppure `fgets()` per leggere fino al primo '`\n`' e
 `strchr()` per localizzare i caratteri separatori '`:`'.
 
 ## Esercizio 4: lettura e scrittura su file passato come argomento ##
