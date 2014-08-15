@@ -1,10 +1,53 @@
 # Esercitazione 5 #
 
-Dove si sperimentano alcuni comandi di base bash.
+Dove si sperimentano alcuni comandi di base Bash.
 
 ## Esercizio -1: interazione utente di base##
 
+Seguire i lucidi [Bash (parte
+1)](https://elearning.di.unipi.it/moodle/pluginfile.php/1315/mod_page/content/3/c009asolab_bash1.0.pdf)
+e provare i comandi negli esempi mostrati a lezione. Cercare di diminuire i
+tempi di battitura dei comandi sfruttando il meccanismo di history, il
+comletamento (TAB) e l'editing di linea.
+
 ## Esercizio 0: `man`, `cat`, `grep`, `sort` ##
+
+Utilizzare `cat` per creare un file di nome `lyrics` che contiene la canzone del non complesanno di Alice nel Paese delle Meraviglie:
+
+> Statics prove, prove that you've one birthday,
+> one birthday ev'ry year.
+> But there are three hundred and sixty four
+> unbirthdays.
+> That is why we're gathered here to cheer.
+> A very merry unbirthday to you, to you.
+> A very merry unbirthday to you,
+> It's great to drink to someone and I guess that you will do.
+> A very merry unbirthday to you
+
+con `grep` e `sort` per selezionare tutte le line che contengono esattamente la
+parola `one` (non come sottostringa di una parola data), ordinarle
+lessicograficamente e farle stampare su `stdout` (usare `sort`).
+
+Utilizzare le opzioni di `grep` (vedi `man grep`) per stampare il numero di
+linea in cui è stata trovata un'occorrenza come in:
+
+> 1:Statistics prove, prove that you've one birthday
+> 2:one birthday ev'ry year.
+
+e poi sempre con la `grep` stampare tutte le linee che non contengono la parola
+`merry` in ordine lessicografico case-unsensitive, cioè:
+
+> But there are three hundred and sixty four
+> It's great to drink to someone and I guess that you will do.
+> one birthday ev'ry year.
+> Statistics prove, prove that you've one birthday,
+> That is why we're gathered here to cheer.
+> unbirthdays.
+
+### Approfondimenti: ###
+
+* Usare `fgrep` invece di `grep` e confrontare il tempo impiegato dai due comandi in modalità utente e kernel usando `time`.
+* Controllare le chiamate di sistema effettuate dai vari comandi con `strace`.
 
 ## Esercizio 1: trasformismo ##
 
