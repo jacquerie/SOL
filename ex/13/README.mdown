@@ -1,0 +1,54 @@
+# Esercitazione 13 #
+
+Dove si sperimentano i segnali e loro gestione.
+
+## Esercizio 1: Gestire `SIGINT`, `SIGTERM` e `SIGUSR1` ##
+
+Realizzare un programma C che stampi gli interi in ordine crescente a
+intervalli di 1 secondo. In questo programma personalizzare `SIGINT` e
+`SIGTERM` in modo da stampare un breve messaggio di saluto su `stderr` prima di
+terminare il processo. Personalizzare `SIGUSR1` in modo da effettuare una
+stampa su `stderr` (ad esempio "`Ho ricevuto SIGUSR1`") e poi continuare
+l'elaborazione. Realizzare due versioni del programma che realizzino la
+gestione secondo le due strutture discusse a lezione:
+
+1. Utilizzare `sigaction()` e i gestori. Fare in modo che il gestore registrato
+utilizzi solo funzioni garantite essendo _asynchronous signal safe_ e che
+l'arrivo contemporaneo dei due segnali non interrompa il gestore.
+2. Utilizzare `sigwait()` e un thread dedicato. Ricordarsi che la `sigwait()`
+funziona correttamente solo se i segnali sono bloccati su tutti i thread,
+incluso quello che effettua la `sigwait()` stessa.
+
+## Esercizio 2: `killshell` ##
+
+Realizzare una shell rudimentale che legge un comando con eventuali parametri
+dallo standard input e ne invoca l'esecuzione utilizzando la `execvp`. La shell
+deve terminare se viene digitato il comando `exit` e deve inviare un segnale
+`SIGKILL` al figlio se l'sesecuzione del comando dura più di 1 secondo. Ogni
+volta che un figlio termine `killshell` deve stampare un breve messaggio su
+`stderr`, indicando il numero del processo terminato e la causa di terminazione
+(il segnale ricevuto nel caso della `kill` oppure lo stato nel caso della
+`exit`).
+
+Utilizzare la `alarm()` per settare il timeout di 1 secondo. La alarm viene
+interrotta dal segnale `SIGCHLD`. Usare le macro definite per la `waitpid()`
+per testare il tipo di terminazione.
+
+## Esercizio 3: alarmserver ##
+
+Realizzare un server `alarmserver` che attende sul socket `alarmsocket` le richieste di sveglia da parte dei client. Il formato dei messaggi è il seguente:
+```
+seconds wakeup_msg
+```
+Il server attende per `seconds` secondi e poi invia al client che ha richiesto
+la sveglia `wakeup_msg` sul connection socket.
+
+Il server deve essere in grado di gestire più richieste di attesa contemporanee
+da parte di diversi client.
+
+Realizzare il client e testare `alarmserver`.
+
+Nota: Utilizzare la SC `alarm()` per impostare la sveglia sul server;
+considerare che, in un dato istante, un solo allarme può essere schedulato per
+processo e che, nel caso di processi multi-threaded, il conseguente segnale
+`SIGALARM` viene inviato al processo e non a uno specifico thread.
