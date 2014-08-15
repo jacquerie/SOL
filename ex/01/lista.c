@@ -43,11 +43,9 @@ void freeList (lista l)
 
 void mapList (int (*f) (int), lista l)
 {
-	lista tmp;
-
-	while ((tmp = l)) {
+	while (l) {
+		l->valore = f(l->valore);
 		l = l->next;
-		tmp->valore = f(tmp->valore);
 	}
 }
 

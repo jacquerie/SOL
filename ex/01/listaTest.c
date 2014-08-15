@@ -27,11 +27,9 @@
 #include "lista.h"
 
 void printList (lista l) {
-	lista tmp;
-
-	while ((tmp = l)) {
+	while (l) {
+		printf("%d\t", l->valore);
 		l = l->next;
-		printf("%d\t", tmp->valore);
 	}
 
 	printf("\n");
