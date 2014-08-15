@@ -28,7 +28,7 @@
 
 lista newList (void)
 {
-	return malloc(sizeof(lista));
+	return calloc(sizeof(nodo), 1);
 }
 
 void freeList (lista l)
