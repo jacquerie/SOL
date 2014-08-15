@@ -1,1 +1,31 @@
 # Esercitazione 12 #
+
+Questa esercitazione si concentra sui meccanismi di IPC.
+
+## Esercizio 1: produttore e consumateore con pipe ##
+
+## Esercizio 2: `who_sort_cat` ##
+
+## Esercizio 3: un server e un client ##
+
+## Esercizio 4: un server e molti client ##
+
+## Esercizio 5: un server e molti client (multithreaded con socket) ##
+
+## Esercizio 6: un server e molti client (single thread) ##
+
+## Esercizio 7: big e little endian ##
+
+## Esercizio 8: get HTTP ##
+
+Scrivere un programma C che scarica la home page dal server `173.194.35.31`
+inviando una richiesta
+```c
+#define REQUEST "GET / HTTP/1.0\r\n\r\n"
+```
+sulla porta `80`.
+
+### Elaborazione: ###
+
+Utilizzare `getaddrinfo` per ottenere l'indirizzo per il server web di Google
+in Italia ("`www.google.it`").
