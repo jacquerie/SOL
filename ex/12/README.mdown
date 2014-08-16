@@ -2,19 +2,91 @@
 
 Questa esercitazione si concentra sui meccanismi di IPC.
 
-## Esercizio 1: produttore e consumateore con pipe ##
+## Esercizio 1: produttore e consumatore con pipe ##
+
+Scrivere un programma C che implementi un processo produttore che genera N
+numeri casuali, li passa a un processo consumatore usando una _pipe senza nome_
+e poi termina. Il consumatore deve stampare ciascun numero ricevuto su `stdin`
+e terminare a sua volta.
 
 ## Esercizio 2: `who_sort_cat` ##
 
+Scrivere un programma C che utilizzando _pipe senza nome_ e la duplicazione di
+descrittori implementa il pipeline di shell
+
+```
+$ who | sort | cat
+```
+
+per stampare la lista di utenti connessi. Ogni commando deve girare in un
+processo diverso.
+
+### Elaborazione: ###
+Usare `wc -l` al posto di `cat` per avere il numero di connessioni.
+
 ## Esercizio 3: un server e un client ##
+
+Realizzare un processo server e un processo client. I due processi
+interagiscono utilizzando due pipe con nome: `clientserver` e `clientp`. Il
+server crea la pipe `clientserver` (se non esiste), la apre e si mette in
+attesa di messaggi da parte del client. Ogni messaggio è costituito da un
+double. Per ogni messaggio ricevuto `x`, il server calcola `x*x` e invia il
+risultato su `clientp`. La sequenza di messaggi termina quando il client chiude
+la pipe `clientserver`. Le pipe devono essere rimosse dal file system alla
+terminazione dei due processi.
 
 ## Esercizio 4: un server e molti client ##
 
+Realizzare un processo server che rimane sempre attivo in attesa di richieste
+da parte di un insieme (possibilmente vuoto) di processi client. Ogni client
+richiede al server la trasformazione di tutti i caratteri minuscoli di una
+stringa in caratteri maiuscoli (ad esempio `tigre` -> `TIGRE`) con un messaggio
+su una pipe dal nome fissato: `clientserver`. In questo i messaggi sulla pipe
+`clientserver` sono scritti da processi client diversi. Ogni client prima di
+inviare una richiesta crea una pipe di ascolto dal nome unico (ad esempio
+usando il PID) e codifica tale nome nel messaggio inviato al server. Alla sua
+attivazione il server crea la pipe `clientserver` (se non esiste), la apre e si
+mette in attesa di messaggi da parte dei client. Ogni messaggio è costituito da
+una stringa e dal nome della pipe di risposta `clientpid`. Per ogni messaggio
+ricevuto il server estrae la stringa, trasforma le minuscole in maiuscole e
+invia il risultato su `clientpid`. Il server deve rimanere sempre attivo, anche
+alla terminazione di tutti i processi client. Tutte le pipe devono essere
+rimosse dal file system alla terminazione del processo/i che le utilizzano.
+
 ## Esercizio 5: un server e molti client (multithreaded con socket) ##
+
+Creare un server che utilizzi le socket `AF_UNIX` e più thread concorrenti per
+gestire un numero di client. Ogni client all'avvio decide quanti messaggi
+inviare (casualmente fra 1 e `N_MSG_MAX`). Tutti i messaggi inviati contengono
+il PID del processo client che li invia. Il server stampa tutti i messaggi
+ricevuti sullo `stdout`.
+
+Il server è realizzato usando più thread. Un thread _dispatcher_ che accetta le
+connessioni dai vari client e un thread _worker_ per ogni client. Il thread
+worker viene attivato appena la connessione si stabilisce e si occupa di
+leggere i messaggi del client e stamparli su `stdout`. Quando il client termina
+l'invio (`EOF`) il thread worker corrispondente termina e libera la memoria
+occupata.
+
+### Elaborazione: ###
+
+Invece di attivare un thread worker per ogni client, attivare un pool di worker
+all'inizio e schedulare le richieste arrivate sul pool in modo da bilanciare il
+carico dei vari worker.
 
 ## Esercizio 6: un server e molti client (single thread) ##
 
+Realizzare un server e un client analoghi a quelli dell'esercizio 5 senza usare
+i thread. Utilizzare la `select()` per risolvere il non determinismo fra
+l'accettazione di nuove connessioni e la lettura dei messaggi dai client già
+connessi.
+
 ## Esercizio 7: big e little endian ##
+
+Scrivere un programma che riconverte il numero `0x3A4C` rappresentato su due
+byte in _network byte order_ e stampa il valore dei byte da quello di indirizzo
+minore. Riconvertire il risultato in _host byte order_ e stampare ancora i due
+byte a partire da quello di indirizzo minore.
 
 ## Esercizio 8: get HTTP ##
 
@@ -26,6 +98,5 @@ inviando una richiesta
 sulla porta `80`.
 
 ### Elaborazione: ###
-
 Utilizzare `getaddrinfo` per ottenere l'indirizzo per il server web di Google
 in Italia ("`www.google.it`").
