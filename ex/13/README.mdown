@@ -34,7 +34,7 @@ Utilizzare la `alarm()` per settare il timeout di 1 secondo. La alarm viene
 interrotta dal segnale `SIGCHLD`. Usare le macro definite per la `waitpid()`
 per testare il tipo di terminazione.
 
-## Esercizio 3: alarmserver ##
+## Esercizio 3: `alarmserver` ##
 
 Realizzare un server `alarmserver` che attende sul socket `alarmsocket` le richieste di sveglia da parte dei client. Il formato dei messaggi è il seguente:
 ```
