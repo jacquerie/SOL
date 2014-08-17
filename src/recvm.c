@@ -24,8 +24,14 @@ void receive_dot (int sig)
 	int difference = (this_signal.tv_sec * 1000 + this_signal.tv_usec / 1000) -
 		(last_signal.tv_sec * 1000 + last_signal.tv_usec / 1000);
 
-	if (difference > 6 * interval) {
-		write(1, "New word\n", 9);
+	if (difference >= 6 * interval) {
+		write(1, "\n.", 2);
+	} else if (difference >= 3 * interval) {
+		write(1, " .", 2);
+	} else if (difference >= 1 * interval || difference < 0) {
+		write(1, ".", 1);
+	} else {
+		write(1, "!", 1);
 	}
 
 	last_signal.tv_sec = this_signal.tv_sec;
@@ -40,8 +46,14 @@ void receive_dash (int sig)
 	int difference = (this_signal.tv_sec * 1000 + this_signal.tv_usec / 1000) -
 		(last_signal.tv_sec * 1000 + last_signal.tv_usec / 1000);
 
-	if (difference > 6 * interval) {
-		write(1, "New word\n", 9);
+	if (difference >= 6 * interval) {
+		write(1, "\n-", 2);
+	} else if (difference >= 3 * interval) {
+		write(1, " -", 2);
+	} else if (difference >= 1 * interval || difference < 0) {
+		write(1, "-", 1);
+	} else {
+		write(1, "!", 1);
 	}
 
 	last_signal.tv_sec = this_signal.tv_sec;
