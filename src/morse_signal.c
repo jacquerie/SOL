@@ -15,6 +15,11 @@ void send_symbol (char c, pid_t pid)
 		kill(pid, SIGUSR2);
 }
 
+void end_symbol (int interval)
+{
+	msleep(interval * BETWEEN_SYMBOLS);
+}
+
 void send_letter (char c, pid_t pid, int interval)
 {
 	int i; const char *s = char_to_morse(c);
@@ -24,10 +29,14 @@ void send_letter (char c, pid_t pid, int interval)
 
 	for (i = 0; i < strlen(s) - 1; i++) {
 		send_symbol(s[i], pid);
-		msleep(interval * BETWEEN_SYMBOLS);
+		end_symbol(interval);
 	}
 
 	send_symbol(s[i], pid);
+}
+
+void end_letter (int interval)
+{
 	msleep(interval * BETWEEN_LETTERS);
 }
 

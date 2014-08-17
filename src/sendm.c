@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "constants.h"
 #include "morse_signal.h"
 
 int main (int argc, char *argv[])
 {
-	char c; int interval; pid_t pid;
+	char c; int first, interval; pid_t pid;
 
 	if (argc != 3) {
 		fprintf(stderr, "Usage: %s pid interval\n", argv[0]);
@@ -16,14 +17,19 @@ int main (int argc, char *argv[])
 	pid = atoi(argv[1]);
 	interval = atoi(argv[2]);
 
+	first = TRUE;
 	while (scanf("%c", &c) != EOF) {
-		if (c == ' ') {
+		if (first) {
+			send_letter(c, pid, interval);
+			first = FALSE;
+		} else if (c == ' ') {
 			end_word(interval);
-			continue;
+		} else {
+			end_letter(interval);
+			send_letter(c, pid, interval);
 		}
-
-		send_letter(c, pid, interval);
 	}
+	end_word(interval);
 
 	return EXIT_SUCCESS;
 }
