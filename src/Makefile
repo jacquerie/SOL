@@ -4,7 +4,7 @@ clean:
 	rm -f ctlm recvm sendm
 
 ctlm: ctlm.c recvm sendm
-	gcc ctml.c -o ctlm
+	gcc ctlm.c -o ctlm
 
 recvm: recvm.c
 	gcc recvm.c -o recvm
