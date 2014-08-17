@@ -1,21 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <ctype.h>
+#include <math.h>
+#include <string.h>
 
 #include "morse.h"
 
-int main (void)
+int morse_to_index (const char* str)
 {
-	int i;
+	int i, length = strlen(str), result = 0;
 
-	for (i = 0; i < 128; i++) {
-		if (CHAR_TO_MORSE[i]) {
-			printf("%8s\t%c\t%s\n",
-				char_to_morse(i),
-				i,
-				morse_to_char(char_to_morse(i)));
-		}
-	}
+	for (i = 0; i < length; i++)
+		if (str[length - i - 1] == '-')
+			result += pow(2, i);
 
-	return EXIT_SUCCESS;
+	result += pow(2, i);
+
+	return result;
+}
+
+const char* char_to_morse (char c)
+{
+	if (islower(c))
+		c += ('A' - 'a');
+
+	return CHAR_TO_MORSE[c];
+}
+
+const char* morse_to_char (const char* str)
+{
+	return MORSE_TO_CHAR[morse_to_index(str)];
 }
 

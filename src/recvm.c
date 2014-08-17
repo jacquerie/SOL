@@ -4,27 +4,27 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-volatile sig_atomic_t keep_going = 1;
+#include "constants.h"
+
+volatile sig_atomic_t keep_going = TRUE;
 
 void quit (int sig)
 {
-	keep_going = 0;
+	keep_going = FALSE;
 }
 
 void receive_dot (int sig)
 {
-	write(1, "SIGUSR1\n", 9);
+	write(1, "SIGUSR1\n", 8);
 }
 
 void receive_dash (int sig)
 {
-	write(1, "SIGUSR2\n", 9);
+	write(1, "SIGUSR2\n", 8);
 }
 
 int main (int argc, char *argv[])
 {
-	struct timeval time;
-
 	if (argc != 2) {
 		fprintf(stderr, "Usage: %s interval\n", argv[0]);
 		return EXIT_FAILURE;
@@ -36,9 +36,8 @@ int main (int argc, char *argv[])
 	signal(SIGUSR1, receive_dot);
 	signal(SIGUSR2, receive_dash);
 
-	while (keep_going) {
-		gettimeofday(&time, NULL);
-	}
+	while (keep_going)
+		;
 
 	return EXIT_SUCCESS;
 }
