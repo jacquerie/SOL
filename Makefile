@@ -4,6 +4,6 @@ clean:
 	rm -f relazione.aux relazione.log relazione.out
 
 pdf:
-	pdflatex tex/relazione.tex
+	pdflatex -shell-escape tex/relazione.tex
 
 .PHONY: all clean pdf
