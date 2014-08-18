@@ -24,12 +24,12 @@ int main (int argc, char *argv[])
 			first = FALSE;
 		} else if (c == ' ') {
 			end_word(interval);
+			first = TRUE;
 		} else {
 			end_letter(interval);
 			send_letter(c, pid, interval);
 		}
 	}
-	end_word(interval);
 
 	return EXIT_SUCCESS;
 }
