@@ -8,4 +8,7 @@
 #define BETWEEN_LETTERS 3
 #define BETWEEN_WORDS   6
 
+#define MS_IN_SEC  1000
+#define US_IN_MSEC 1000
+
 #endif
