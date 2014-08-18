@@ -22,7 +22,7 @@ const char* char_to_morse (char c)
 	if (islower(c))
 		c += ('A' - 'a');
 
-	return CHAR_TO_MORSE[c];
+	return CHAR_TO_MORSE[(int) c];
 }
 
 const char* morse_to_char (const char* str)
