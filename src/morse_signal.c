@@ -5,7 +5,7 @@
 #include "constants.h"
 #include "morse.h"
 #include "morse_signal.h"
-#include "msleep.h"
+#include "millisleep.h"
 
 void send_symbol (char c, pid_t pid)
 {
@@ -17,7 +17,7 @@ void send_symbol (char c, pid_t pid)
 
 void end_symbol (int interval)
 {
-	msleep(interval * BETWEEN_SYMBOLS);
+	millisleep(interval * BETWEEN_SYMBOLS);
 }
 
 void send_letter (char c, pid_t pid, int interval)
@@ -37,10 +37,10 @@ void send_letter (char c, pid_t pid, int interval)
 
 void end_letter (int interval)
 {
-	msleep(interval * BETWEEN_LETTERS);
+	millisleep(interval * BETWEEN_LETTERS);
 }
 
 void end_word (int interval)
 {
-	msleep(interval * BETWEEN_WORDS);
+	millisleep(interval * BETWEEN_WORDS);
 }

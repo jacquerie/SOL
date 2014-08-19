@@ -9,8 +9,8 @@ ctlm: ctlm.c recvm sendm
 recvm: recvm.c
 	gcc -Wall -pedantic recvm.c -o recvm
 
-sendm: msleep.c morse.c morse_signal.c sendm.c
-	gcc -Wall -pedantic -lm msleep.c morse.c morse_signal.c sendm.c -o sendm
+sendm: millisleep.c morse.c morse_signal.c sendm.c
+	gcc -Wall -pedantic -lm millisleep.c morse.c morse_signal.c sendm.c -o sendm
 
 test: ctlm
 	./ctlm 500 10 | tee "$$$$.tmp"
