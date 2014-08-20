@@ -21,22 +21,22 @@ static const char* CHAR_TO_MORSE[128] = {
 };
 
 static const char* MORSE_TO_CHAR[128] = {
-	NULL, NULL, "E", "T", "I", "A", "N", "M",
-	"S", "U", "R", "W", "D", "K", "G", "O",
-	"H", "V", "F", NULL, "L", NULL, "P", "J",
-	"B", "X", "C", "Y", "Z", "Q", NULL, NULL,
-	"5", "4", NULL, "3", NULL, NULL, NULL, "2",
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, "1",
-	"6", "=", "/", NULL, NULL, NULL, "(", NULL,
-	"7", NULL, NULL, NULL, "8", NULL, "9", "0",
-	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, NULL, "?", "_", NULL, NULL,
-	NULL, NULL, "\"", NULL, NULL, ".", NULL, NULL,
-	NULL, NULL, "@", NULL, NULL, NULL, "'", NULL,
+	NULL, NULL, "E", "T", "I", "N", "A", "M",
+	"S", "D", "R", "G", "U", "K", "W", "O",
+	"H", "B", "L", "Z", "F", "C", "P", NULL,
+	"V", "X", NULL, "Q", NULL, "Y", "J", NULL,
+	"5", "6", NULL, "7", NULL, NULL, NULL, "8",
+	NULL, "/", NULL, NULL, NULL, "(", NULL, "9",
+	"4", "=", NULL, NULL, NULL, NULL, NULL, NULL,
+	"3", NULL, NULL, NULL, "2", NULL, "1", "0",
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, ":",
+	NULL, NULL, NULL, NULL, "?", NULL, NULL, NULL,
+	NULL, NULL, "\"", NULL, NULL, NULL, "@", NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, "'", NULL,
 	NULL, "-", NULL, NULL, NULL, NULL, NULL, NULL,
-	NULL, NULL, NULL, "!", NULL, ")", NULL, NULL,
-	NULL, NULL, NULL, ",", NULL, NULL, NULL, NULL,
-	":", NULL, NULL, NULL, NULL, NULL, NULL, NULL
+	NULL, NULL, ".", NULL, "_", ")", NULL, NULL,
+	NULL, NULL, NULL, ",", NULL, "!", NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
 
 const char* char_to_morse(char);

@@ -1,20 +1,27 @@
 #include <ctype.h>
-#include <math.h>
-#include <string.h>
+#include <stdlib.h>
 
 #include "morse.h"
 
 int morse_to_index (const char* str)
 {
-	int i, length = strlen(str), result = 0;
+	unsigned char sum = 0, bit;
 
-	for (i = 0; i < length; i++)
-		if (str[length - i - 1] == '-')
-			result += pow(2, i);
+	for (bit = 1; bit; bit <<= 1) {
+		switch (*str++) {
+		case 0:
+			return sum | bit;
+		default:
+			return 0;
+		case '-':
+			sum |= bit;
+			/* FALLTHROUGH */
+		case '.':
+			break;
+		}
+	}
 
-	result += pow(2, i);
-
-	return result;
+	return 0;
 }
 
 const char* char_to_morse (char c)
