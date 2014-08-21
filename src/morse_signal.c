@@ -22,17 +22,17 @@ void end_symbol (int interval)
 
 void send_letter (char c, pid_t pid, int interval)
 {
-	int i; const char *s = char_to_morse(c);
+	int i; const char *str = encode(c);
 
-	if (s == NULL)
+	if (str == NULL)
 		return;
 
-	for (i = 0; i < strlen(s) - 1; i++) {
-		send_symbol(s[i], pid);
+	for (i = 0; i < strlen(str) - 1; i++) {
+		send_symbol(str[i], pid);
 		end_symbol(interval);
 	}
 
-	send_symbol(s[i], pid);
+	send_symbol(str[i], pid);
 }
 
 void end_letter (int interval)

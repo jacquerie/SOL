@@ -39,8 +39,8 @@ static const char* MORSE_TO_CHAR[128] = {
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
 
-const char* char_to_morse(char);
-const char* morse_to_char(const char*);
+const char* encode (char);
+const char* decode (const char*);
 int morse_to_index (const char*);
 
 #endif

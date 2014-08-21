@@ -24,7 +24,7 @@ int morse_to_index (const char* str)
 	return 0;
 }
 
-const char* char_to_morse (char c)
+const char* encode (char c)
 {
 	if (islower(c))
 		c += ('A' - 'a');
@@ -32,7 +32,7 @@ const char* char_to_morse (char c)
 	return CHAR_TO_MORSE[(int) c];
 }
 
-const char* morse_to_char (const char* str)
+const char* decode (const char* str)
 {
 	return MORSE_TO_CHAR[morse_to_index(str)];
 }
