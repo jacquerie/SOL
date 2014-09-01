@@ -30,6 +30,7 @@ int main (int argc, char *argv[])
 			send_letter(c, pid, interval);
 		}
 	}
+	end_message(pid);
 
 	return EXIT_SUCCESS;
 }
