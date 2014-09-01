@@ -44,3 +44,8 @@ void end_word (int interval)
 {
 	millisleep(interval * BETWEEN_WORDS);
 }
+
+void end_message (pid_t pid)
+{
+	kill(pid, SIGINT);
+}

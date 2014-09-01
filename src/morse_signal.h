@@ -9,4 +9,6 @@ void end_letter (int);
 
 void end_word (int);
 
+void end_message (pid_t);
+
 #endif
