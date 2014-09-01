@@ -6,8 +6,8 @@ clean:
 ctlm: ctlm.c recvm sendm
 	gcc -Wall -pedantic ctlm.c -o ctlm
 
-recvm: recvm.c
-	gcc -Wall -pedantic recvm.c -o recvm
+recvm: morse.c stopwatch.c recvm.c
+	gcc -Wall -pedantic morse.c stopwatch.c recvm.c -o recvm
 
 sendm: millisleep.c morse.c morse_signal.c sendm.c
 	gcc -Wall -pedantic -lm millisleep.c morse.c morse_signal.c sendm.c -o sendm
