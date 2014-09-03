@@ -1,6 +1,8 @@
 #ifndef _morse_h
 #define _morse_h
 
+#include "string.h"
+
 static const char* CHAR_TO_MORSE[128] = {
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
