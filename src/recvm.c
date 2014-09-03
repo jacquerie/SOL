@@ -10,6 +10,7 @@ int main (int argc, char *argv[])
 {
 	char c;
 	int first, interval, ms, sig;
+	sigset_t set;
 	stopwatch last;
 
 	if (argc != 2) {
@@ -19,7 +20,6 @@ int main (int argc, char *argv[])
 
 	interval = atoi(argv[1]);
 
-	sigset_t set;
 	sigemptyset(&set);
 	sigaddset(&set, SIGINT);
 	sigaddset(&set, SIGUSR1);
