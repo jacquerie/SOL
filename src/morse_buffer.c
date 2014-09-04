@@ -3,6 +3,9 @@
 #include "morse.h"
 #include "morse_buffer.h"
 
+char buffer[8] = {0};
+int _index = 0;
+
 void buffer_add (char c)
 {
 	buffer[_index] = c;

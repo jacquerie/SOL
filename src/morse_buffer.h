@@ -1,8 +1,8 @@
 #ifndef _morse_buffer_h
 #define _morse_buffer_h
 
-static char buffer[8];
-static int _index;
+extern char buffer[8];
+extern int _index;
 
 void buffer_add (char);
 void buffer_flush (char*);
