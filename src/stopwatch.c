@@ -6,10 +6,11 @@
 
 int ms_elapsed (stopwatch* last)
 {
+	int result;
 	struct timeval now;
-	gettimeofday(&now, NULL);
 
-	int result = (now.tv_sec * MS_IN_SEC + now.tv_usec / US_IN_MSEC) -
+	gettimeofday(&now, NULL);
+	result = (now.tv_sec * MS_IN_SEC + now.tv_usec / US_IN_MSEC) -
 		(last->tv_sec * MS_IN_SEC + last->tv_usec / US_IN_MSEC);
 
 	last->tv_sec = now.tv_sec;
