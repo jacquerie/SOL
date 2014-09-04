@@ -3,7 +3,45 @@
 
 #include "morse.h"
 
-int morse_to_index (const char* str)
+char* CHAR_TO_MORSE[128] = {
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, "-.-.--", ".-..-.", NULL, NULL, NULL, NULL, ".----.",
+	"-.--.", "-.--.-", NULL, NULL, "--..--", "-....-", ".-.-.-", "-..-.",
+	"-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...",
+	"---..", "----.", "---...", NULL, NULL, "-...-", NULL, "..--..",
+	".--.-.", ".-", "-...", "-.-.", "-..", ".", "..-.", "--.",
+	"....",	"..", ".---", "-.-", ".-..", "--", "-.", "---",
+	".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--",
+	"-..-", "-.--", "--..", NULL, NULL, NULL, NULL, "..--.-",
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+};
+
+char* MORSE_TO_CHAR[128] = {
+	NULL, NULL, "E", "T", "I", "N", "A", "M",
+	"S", "D", "R", "G", "U", "K", "W", "O",
+	"H", "B", "L", "Z", "F", "C", "P", NULL,
+	"V", "X", NULL, "Q", NULL, "Y", "J", NULL,
+	"5", "6", NULL, "7", NULL, NULL, NULL, "8",
+	NULL, "/", NULL, NULL, NULL, "(", NULL, "9",
+	"4", "=", NULL, NULL, NULL, NULL, NULL, NULL,
+	"3", NULL, NULL, NULL, "2", NULL, "1", "0",
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, ":",
+	NULL, NULL, NULL, NULL, "?", NULL, NULL, NULL,
+	NULL, NULL, "\"", NULL, NULL, NULL, "@", NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, "'", NULL,
+	NULL, "-", NULL, NULL, NULL, NULL, NULL, NULL,
+	NULL, NULL, ".", NULL, "_", ")", NULL, NULL,
+	NULL, NULL, NULL, ",", NULL, "!", NULL, NULL,
+	NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+};
+
+int morse_to_index (char* str)
 {
 	unsigned char sum = 0, bit;
 
@@ -24,7 +62,7 @@ int morse_to_index (const char* str)
 	return 0;
 }
 
-const char* encode (char c)
+char* encode (char c)
 {
 	if (islower(c))
 		c += ('A' - 'a');
@@ -32,7 +70,7 @@ const char* encode (char c)
 	return CHAR_TO_MORSE[(int) c];
 }
 
-const char* decode (const char* str)
+char* decode (char* str)
 {
 	return MORSE_TO_CHAR[morse_to_index(str)];
 }
