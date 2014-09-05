@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -pedantic
-exe = ctlm recvm sendm
+EXE = ctlm recvm sendm
 
-all: $(exe)
+all: $(EXE)
 
 clean:
-	rm -f $(exe)
+	rm -f $(EXE)
 
 ctlm: ctlm.c random_msg.c
 	$(CC) $(CFLAGS) $^ -o $@
