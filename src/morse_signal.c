@@ -9,9 +9,9 @@
 
 void send_symbol (char c, pid_t pid)
 {
-	if (c == '.')
+	if (c == DOT)
 		kill(pid, SIGUSR1);
-	else if (c == '-')
+	else if (c == DASH)
 		kill(pid, SIGUSR2);
 }
 
@@ -22,12 +22,15 @@ void end_symbol (int interval)
 
 void send_letter (char c, pid_t pid, int interval)
 {
-	int i; const char *str = encode(c);
+	int i, length;
+	char *str = encode(c);
 
 	if (str == NULL)
 		return;
+	else
+		length = strlen(str);
 
-	for (i = 0; i < strlen(str) - 1; i++) {
+	for (i = 0; i < length - 1; i++) {
 		send_symbol(str[i], pid);
 		end_symbol(interval);
 	}
