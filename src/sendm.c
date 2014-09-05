@@ -7,7 +7,9 @@
 
 int main (int argc, char *argv[])
 {
-	char c; int first, interval; pid_t pid;
+	char c;
+	int first, interval;
+	pid_t pid;
 
 	if (argc != 3) {
 		fprintf(stderr, "Usage: %s pid interval\n", argv[0]);
