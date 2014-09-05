@@ -4,6 +4,9 @@
 #define TRUE  1
 #define FALSE 0
 
+#define DASH '-'
+#define DOT '.'
+
 #define BETWEEN_SYMBOLS 1
 #define BETWEEN_LETTERS 3
 #define BETWEEN_WORDS   6
