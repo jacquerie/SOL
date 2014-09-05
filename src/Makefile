@@ -3,8 +3,8 @@ all: ctlm recvm sendm
 clean:
 	rm -f ctlm recvm sendm
 
-ctlm: ctlm.c recvm sendm
-	gcc -Wall -pedantic ctlm.c -o ctlm
+ctlm: random_msg.c ctlm.c recvm sendm
+	gcc -Wall -pedantic random_msg.c ctlm.c -o ctlm
 
 recvm: morse.c morse_buffer.c stopwatch.c recvm.c
 	gcc -Wall -pedantic morse.c morse_buffer.c stopwatch.c recvm.c -o recvm
