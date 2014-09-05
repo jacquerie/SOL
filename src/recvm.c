@@ -6,6 +6,13 @@
 #include "morse_buffer.h"
 #include "stopwatch.h"
 
+#define WITH_NEWLINE "\n"
+#define WITH_SPACE " "
+
+int new_symbol (int, int);
+int new_letter (int, int);
+int new_word (int, int);
+
 int main (int argc, char *argv[])
 {
 	char c;
@@ -30,23 +37,38 @@ int main (int argc, char *argv[])
 	while (TRUE) {
 		sigwait(&set, &sig);
 		if (sig == SIGINT) {
-			buffer_flush("\n");
+			buffer_flush(WITH_NEWLINE);
 			exit(EXIT_SUCCESS);
 		}
 
 		ms = ms_elapsed(&last);
-		c = (sig == SIGUSR1) ? '.' : '-';
+		c = (sig == SIGUSR1) ? DOT : DASH;
 
-		if (first || (ms >= interval * BETWEEN_SYMBOLS && ms < interval * BETWEEN_LETTERS)) {
+		if (first || new_symbol(ms, interval)) {
 			buffer_add(c);
-		} else if (ms >= interval * BETWEEN_LETTERS && ms < interval * BETWEEN_WORDS) {
+		} else if (new_letter(ms, interval)) {
 			buffer_flush(NULL);
 			buffer_add(c);
-		} else if (ms >= interval * BETWEEN_WORDS) {
-			buffer_flush(" ");
+		} else if (new_word(ms, interval)) {
+			buffer_flush(WITH_SPACE);
 			buffer_add(c);
 		}
 
 		first = FALSE;
 	}
+}
+
+int new_symbol (int ms, int interval)
+{
+	return ms >= interval * BETWEEN_SYMBOLS && ms < interval * BETWEEN_LETTERS;
+}
+
+int new_letter (int ms, int interval)
+{
+	return ms >= interval * BETWEEN_LETTERS && ms < interval * BETWEEN_WORDS;
+}
+
+int new_word (int ms, int interval)
+{
+	return ms >= interval * BETWEEN_WORDS;
 }
