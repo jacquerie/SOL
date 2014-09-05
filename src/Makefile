@@ -1,18 +1,22 @@
-all: ctlm recvm sendm
+CC = gcc
+CFLAGS = -Wall -pedantic
+exe = ctlm recvm sendm
+
+all: $(exe)
 
 clean:
-	rm -f ctlm recvm sendm
+	rm -f $(exe)
 
-ctlm: random_msg.c ctlm.c recvm sendm
-	gcc -Wall -pedantic random_msg.c ctlm.c -o ctlm
+ctlm: ctlm.c random_msg.c
+	$(CC) $(CFLAGS) $^ -o $@
 
-recvm: morse.c morse_buffer.c stopwatch.c recvm.c
-	gcc -Wall -pedantic morse.c morse_buffer.c stopwatch.c recvm.c -o recvm
+recvm: recvm.c morse.c morse_buffer.c stopwatch.c
+	$(CC) $(CFLAGS) $^ -o $@
 
-sendm: millisleep.c morse.c morse_signal.c sendm.c
-	gcc -Wall -pedantic -lm millisleep.c morse.c morse_signal.c sendm.c -o sendm
+sendm: sendm.c morse.c morse_signal.c millisleep.c
+	$(CC) $(CFLAGS) $^ -o $@
 
 test: ctlm
-	./ctlm 500 10 | tee "$$$$.tmp"
-	./statm <"$$$$.tmp"
+	./ctlm 500 10 | tee "$$$$.tmp" &&
+	./statm <"$$$$.tmp" &&
 	rm -f "$$$$.tmp"
