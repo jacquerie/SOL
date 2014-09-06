@@ -15,7 +15,4 @@
 #define US_IN_MSEC 1000
 #define NS_IN_MSEC 1000000
 
-#define MIN_MSG_LEN 16
-#define MAX_MSG_LEN 8192
-
 #endif
