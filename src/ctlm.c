@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "constants.h"
 #include "random_msg.h"
 
 #define MIN_MSG_LEN 16
