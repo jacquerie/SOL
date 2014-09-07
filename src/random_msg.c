@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 
 #include "random_msg.h"
 
@@ -24,12 +25,15 @@ char random_char (void)
 	return ALLOWED_CHARS[random_int(0, ALLOWED_LEN)];
 }
 
-char* random_msg (int length)
+char* random_msg (int from, int to)
 {
 	char* msg;
-	int i;
+	int i, length;
 
+	srand(time(NULL));
+	length = random_int(from, to);
 	msg = (char*) malloc(length * sizeof(char));
+
 	for (i = 0; i < length; i++)
 		msg[i] = random_char();
 
