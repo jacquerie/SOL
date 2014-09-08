@@ -6,6 +6,6 @@ extern int ALLOWED_LEN;
 
 int random_int (int, int);
 char random_char (void);
-char* random_msg (int, int);
+char* random_msg (int);
 
 #endif
