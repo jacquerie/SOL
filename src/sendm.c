@@ -8,7 +8,7 @@
 int main (int argc, char *argv[])
 {
 	char c;
-	int first, interval;
+	int interval, new_word;
 	pid_t pid;
 
 	if (argc != 3) {
@@ -19,14 +19,14 @@ int main (int argc, char *argv[])
 	pid = atoi(argv[1]);
 	interval = atoi(argv[2]);
 
-	first = TRUE;
+	new_word = TRUE;
 	while (scanf("%c", &c) != EOF) {
-		if (first) {
+		if (new_word) {
 			send_letter(c, pid, interval);
-			first = FALSE;
+			new_word = FALSE;
 		} else if (c == ' ') {
 			end_word(interval);
-			first = TRUE;
+			new_word = TRUE;
 		} else {
 			end_letter(interval);
 			send_letter(c, pid, interval);
