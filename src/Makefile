@@ -1,8 +1,4 @@
-all:
+CFLAGS=-Wall -pedantic
 
-clean:
-
-test:
-
-.PHONY: all clean test
+trie_test: trie_test.c trie.c
 
