@@ -1,4 +1,4 @@
-#ifndef __INTERACTIVE_H_
-#define __INTERACTIVE_H_
+#ifndef __INTERACTIVE_H
+#define __INTERACTIVE_H
 
 #endif

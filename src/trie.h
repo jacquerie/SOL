@@ -1,5 +1,5 @@
-#ifndef __TRIE_H_
-#define __TRIE_H_
+#ifndef __TRIE_H
+#define __TRIE_H
 
 #define TREE_SIZE 128
 static const int TRIE_SIZE = TREE_SIZE;

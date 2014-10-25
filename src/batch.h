@@ -1,4 +1,4 @@
-#ifndef __BATCH_H_
-#define __BATCH_H_
+#ifndef __BATCH_H
+#define __BATCH_H
 
 #endif
