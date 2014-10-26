@@ -73,12 +73,43 @@ static void disableRawMode (int fd)
 
 static int getCursorPosition (int ifd, int ofd)
 {
-	/* TODO */
+	char buffer[32];
+	int cols, rows;
+	size_t i;
+
+	if (write(ofd, "\x1b[6n", 4) != 4)
+		return -1;
+
+	for (i = 0; i < sizeof(buffer) - 1; i++) {
+		if (read(ifd, buffer + i, 1) != 1)
+			break;
+
+		if (buffer[i] == 'R')
+			break;
+	}
+	buffer[i] = '\0';
+
+	if (buffer[0] != ESC || buffer[1] != '[')
+		return -1;
+
+	if (sscanf(buffer + 2, "%d;%d", &rows, &cols) != 2)
+		return -1;
+
+	return cols;
 }
 
 static int getColumns (int ifd, int ofd)
 {
-	/* TODO */
+	struct winsize ws;
+
+	if (ioctl(1, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+		/* TODO */
+	} else {
+		return ws.ws_col;
+	}
+
+fallback:
+	return 80;
 }
 
 static void dotnoiseBeep (void)
