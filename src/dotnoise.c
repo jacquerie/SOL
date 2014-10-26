@@ -232,7 +232,23 @@ void dotnoiseSetCompletionCallback (dotnoiseCompletionCallback *func)
 
 void dotnoiseAddCompletion (const char *str, dotnoiseCompletions *dc)
 {
-	/* TODO */
+	size_t length = strlen(str);
+	char *copy, **completions;
+
+	copy = malloc(length + 1);
+	if (copy == NULL)
+		return;
+
+	memcpy(copy, str, length + 1);
+
+	completions = realloc(dc->completions, sizeof(char*) *(dc->length + 1));
+	if (completions == NULL) {
+		free(copy);
+		return;
+	}
+
+	dc->completions = completions;
+	dc->completions[dc->length++] = copy;
 }
 
 /* =========================== Append buffer ================================ */
