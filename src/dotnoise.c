@@ -162,7 +162,12 @@ int dotnoiseEditInsert (struct dotnoiseState *ds, char c)
 
 void dotnoiseEditDelete (struct dotnoiseState *ds)
 {
-	/* TODO */
+	if (ds->length > 0 && ds->position < ds->length) {
+		memmove(ds->buffer + ds->position, ds->buffer + ds->position + 1, ds->length - ds->position - 1);
+		ds->length--;
+		ds->buffer[ds->length] = '\0';
+		refreshLine(ds);
+	}
 }
 
 void dotnoiseEditBackspace (struct dotnoiseState *ds)
