@@ -168,6 +168,36 @@ void dotnoiseAddCompletion (dotnoiseCompletions *dc, const char *str)
 	/* TODO */
 }
 
+/* =========================== Append buffer ================================ */
+
+struct abuf {
+	char *b;
+	int len;
+};
+
+static void abInit (struct abuf *ab)
+{
+	ab->b = NULL;
+	ab->len = 0;
+}
+
+static void abAppend (struct abuf *ab, const char *s, int len)
+{
+	char *new = realloc(ab->b, ab->len + len);
+
+	if (new == NULL)
+		return;
+
+	memcpy(new + ab->len, s, len);
+	ab->b = new;
+	ab->len += len;
+}
+
+static void abFree (struct abuf *ab)
+{
+	free(ab->b);
+}
+
 /* =========================== Line editing ================================= */
 
 static void refreshLine (struct dotnoiseState *ds)
