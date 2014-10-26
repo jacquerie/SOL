@@ -51,6 +51,7 @@ static int enableRawMode (int fd)
 	raw.c_oflag &= ~(OPOST);
 	raw.c_cflag |= (CS8);
 	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+
 	raw.c_cc[VMIN] = 1;
 	raw.c_cc[VTIME] = 0;
 
@@ -58,6 +59,7 @@ static int enableRawMode (int fd)
 		goto fatal;
 
 	rawmode = TRUE;
+
 	return 0;
 
 fatal:
@@ -237,4 +239,9 @@ static int dotnoiseRaw (char *buffer, size_t buffer_length, const char *prompt)
 char *dotnoise (cost char *prompt)
 {
 	/* TODO */
+}
+
+static void dotnoiseAtExit (void)
+{
+	disableRawMode(STDIN_FILENO);
 }
