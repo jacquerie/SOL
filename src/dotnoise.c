@@ -360,7 +360,7 @@ static int dotnoiseEdit (int stdin_fd, int stdout_fd, char *buffer, size_t buffe
 			if (c < 0)
 				return ds.length;
 
-			if (c == 0)
+			if (c == KEY_NULL)
 				continue;
 		}
 
