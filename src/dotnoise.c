@@ -238,7 +238,14 @@ static int dotnoiseRaw (char *buffer, size_t buffer_length, const char *prompt)
 
 char *dotnoise (cost char *prompt)
 {
-	/* TODO */
+	char buffer[DOTNOISE_MAX_LINE];
+	int count;
+
+	count = dotnoiseRaw(buffer, DOTNOISE_MAX_LINE, prompt);
+	if (count == -1)
+		return NULL;
+
+	return strdup(buffer);
 }
 
 static void dotnoiseAtExit (void)
