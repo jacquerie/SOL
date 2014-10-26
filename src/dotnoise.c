@@ -167,7 +167,13 @@ void dotnoiseEditDelete (struct dotnoiseState *ds)
 
 void dotnoiseEditBackspace (struct dotnoiseState *ds)
 {
-	/* TODO */
+	if (ds->position > 0 && ds->length > 0) {
+		memmove(ds->buffer + ds->position - 1, ds->buffer + ds->position, ds->length - ds->position);
+		ds->position--;
+		ds->length--;
+		ds->buffer[ds->length] = '\0';
+		refreshLine(ds);
+	}
 }
 
 static int dotnoiseEdit (int stdin_fd, int stdout_fd, char *buffer, size_t buffer_length, const char *prompt)
