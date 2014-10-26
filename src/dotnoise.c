@@ -233,7 +233,28 @@ static int dotnoiseEdit (int stdin_fd, int stdout_fd, char *buffer, size_t buffe
 
 static int dotnoiseRaw (char *buffer, size_t buffer_length, const char *prompt)
 {
-	/* TODO */
+	int count;
+
+	if (!isatty(STDIN_FILENO)) {
+		if (fgets(buffer, buffer_length, stdin) == NULL)
+			return -1;
+
+		count = strlen(buffer);
+		if (count && buffer[count - 1] == '\n') {
+			count--;
+			buffer[count] = '\0';
+		}
+	} else {
+		if (enableRawMode(STDIN_FILENO))
+			return -1;
+
+		count = dotnoiseEdit(STDIN_FILENO, STDOUT_FILENO, buffer, buffer_length, prompt);
+
+		disableRawMode(STDIN_FILENO);
+		printf("\n");
+	}
+
+	return count;
 }
 
 char *dotnoise (cost char *prompt)
