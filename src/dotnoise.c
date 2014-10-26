@@ -105,7 +105,27 @@ static int getColumns (int ifd, int ofd)
 	struct winsize ws;
 
 	if (ioctl(1, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
-		/* TODO */
+		int start, end;
+
+		start = getCursorPosition(ifd, ofd);
+		if (start == -1)
+			goto fallback;
+
+		if (write(ofd, "\x1b[999c", 6) != 6)
+			goto fallback;
+
+		end = getCursorPosition(ifd, ofd);
+		if (end == -1)
+			goto fallback;
+
+		if (end > start) {
+			char seq[32];
+			snprintf(seq, 32, "\x1b[%dD", end - start);
+			if (write(ofd, seq, strlen(seq)) == -1)
+				;
+		}
+
+		return end;
 	} else {
 		return ws.ws_col;
 	}
