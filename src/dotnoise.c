@@ -31,6 +31,7 @@ struct dotnoiseState {
 };
 
 enum KEY_ACTION {
+	KEY_NULL = 0,
 	CTRL_C = 3,
 	CTRL_D = 4,
 	TAB = 9,
@@ -166,9 +167,62 @@ static void freeCompletions (dotnoiseCompletions *dc)
 		free(dc->completions);
 }
 
-static int completeLine (struct dotnoiseState *dc)
+static int completeLine (struct dotnoiseState *ds)
 {
-	/* TODO */
+	char c = KEY_NULL;
+	dotnoiseCompletions dc = { 0, NULL };
+	int nwritten;
+
+	completionCallback(ds->buffer, &dc);
+	if (dc.length == 0) {
+		dotnoiseBeep();
+	} else {
+		int stop = FALSE;
+		size_t i = 0;
+
+		while (!stop) {
+			if (i < dc.length) {
+				struct dotnoiseState saved = *ds;
+
+				ds->length = ds->position = strlen(dc.completions[i]);
+				ds->buffer = dc.completions[i];
+				refreshLine(ds);
+				ds->length = saved.length;
+				ds->position = saved.position;
+				ds->buffer = saved.buffer;
+			} else {
+				refreshLine(ds);
+			}
+
+			if (read(ds->ifd, &c, 1) <= 0) {
+				freeCompletions(&dc);
+				return -1;
+			}
+
+			switch (c) {
+			case TAB:
+				i = (i + 1) % (dc.length + 1);
+				if (i == dc.length)
+					dotnoiseBeep();
+				break;
+			case ESC:
+				if (i < dc.length)
+					refreshLine(ds);
+				stop = TRUE;
+				break;
+			default:
+				if (i < dc.length) {
+					nwritten = snprintf(ds->buffer, ds->buffer_length, "%s", dc.completions[i]);
+					ds->length = ds->position = nwritten;
+				}
+				stop = TRUE;
+				break;
+			}
+		}
+	}
+
+	freeCompletions(&dc);
+	return c;
 }
 
 void dotnoiseSetCompletionCallback (dotnoiseCompletionCallback *func)
