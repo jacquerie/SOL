@@ -215,7 +215,37 @@ static void abFree (struct abuf *ab)
 
 static void refreshLine (struct dotnoiseState *ds)
 {
-	/* TODO */
+	char seq[32];
+	struct abuf ab;
+
+	while ((ds->prompt_length + ds->position) >= ds->columns) {
+		ds->buffer++;
+		ds->length--;
+		ds->position--;
+	}
+
+	while ((ds->prompt_length + ds->length) > ds->columns) {
+		ds->length--;
+	}
+
+	abInit(&ab);
+
+	snprintf(seq, 32, "\r");
+	abAppend(&ab, seq, strlen(seq));
+
+	abAppend(&ab, ds->prompt, ds->prompt_length);
+	abAppend(&ab, ds->buffer, ds->length);
+
+	snprintf(seq, 32, "\x1b[0K");
+	abAppend(&ab, seq, strlen(seq));
+
+	snprintf(seq, 32, "\r\x1b[%dC", (int) (ds->position + ds->prompt_length));
+	abAppend(&ab, seq, strlen(seq));
+
+	if (write(ds->ofd, ab.b, ab.len) == -1)
+		;
+
+	abFree(&ab);
 }
 
 int dotnoiseEditInsert (struct dotnoiseState *ds, char c)
