@@ -170,7 +170,63 @@ void dotnoiseEditBackspace (struct dotnoiseState *ds)
 
 static int dotnoiseEdit (int stdin_fd, int stdout_fd, char *buffer, size_t buffer_length, const char *prompt)
 {
-	/* TODO */
+	struct dotnoiseState ds;
+
+	ds.ifd = stdin_fd;
+	ds.ofd = stdout_fd;
+	ds.buffer = buffer;
+	ds.buffer_length = buffer_length;
+	ds.prompt = prompt;
+	ds.prompt_length = strlen(prompt);
+	ds.old_position = ds.position = 0;
+	ds.length = 0;
+	ds.columns = getColumns(stdin_fd, stdout_fd);
+
+	ds.buffer[0] = '\0';
+	ds.buffer_length--;
+
+	if (write(ds.ofd, prompt, ds.prompt_length) == -1)
+		return -1;
+
+	while (TRUE) {
+		char c;
+
+		if (read(ds.ifd, &c, 1))
+			return ds.length;
+
+		if (c == TAB && completionCallback != NULL) {
+			c = completeLine(&ds);
+
+			if (c < 0)
+				return ds.length;
+
+			if (c == 0)
+				continue;
+		}
+
+		switch (c) {
+		case CTRL_C:
+			errno = EAGAIN;
+			return -1;
+		case CTRL_D:
+			if (ds.length > 0)
+				dotnoiseEditDelete(&ds);
+			else
+				return -1;
+			break;
+		case ENTER:
+			return (int) ds.length;
+		case BACKSPACE:
+			dotnoiseEditBackspace(&ds);
+			break;
+		default:
+			if (dotnoiseEditInsert(&ds, c))
+				return -1;
+			break;
+		}
+	}
+
+	return ds.length;
 }
 
 static int dotnoiseRaw (char *buffer, size_t buffer_length, const char *prompt)
