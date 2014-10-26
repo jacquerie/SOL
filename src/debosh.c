@@ -1,37 +1,38 @@
 #include <dirent.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 
 void deboshBatch (DIR* commandPath, DIR* dataPath, FILE* batchFile)
 {
-	struct dirent *ent;
-
-	while ((ent = readdir(commandPath)) != NULL)
-		printf("%s\n", ent->d_name);
+	printf("Running debosh in batch mode.\n");
 }
 
 void deboshInteractive (DIR* commandPath, DIR* dataPath)
 {
-	struct dirent *ent;
-
-	while ((ent = readdir(dataPath)) != NULL)
-		printf("%s\n", ent->d_name);
+	printf("Running debosh in interactive mode.\n");
 }
 
 int main (int argc, char *argv[])
 {
+	DIR *commandPath;
+	DIR *dataPath;
+	FILE *batchFile;
+
 	if (argc == 3 || argc == 4) {
-		DIR *commandPath = opendir(argv[1]);
-		DIR *dataPath = opendir(argv[2]);
+		commandPath = opendir(argv[1]);
+		dataPath = opendir(argv[2]);
+
+		if (commandPath == NULL || dataPath == NULL)
+			goto fatal;
 
 		if (argc == 4) {
-			FILE *batchFile = fopen(argv[3], "r");
+			if ((batchFile = fopen(argv[3], "r")) == NULL)
+				goto fatal;
 
-			/* Run debosh in batch mode. */
 			deboshBatch(commandPath, dataPath, batchFile);
 		} else {
-			/* Run debosh in interactive mode. */
 			deboshInteractive(commandPath, dataPath);
 		}
 	} else {
@@ -40,4 +41,8 @@ int main (int argc, char *argv[])
 	}
 
 	exit(EXIT_SUCCESS);
+
+fatal:
+	errno = ENOENT;
+	exit(EXIT_FAILURE);
 }
