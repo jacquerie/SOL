@@ -1,3 +1,15 @@
+#include <errno.h>
+#include <termios.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+#include "bool.h"
+#include "dotnoise.h"
+
 #define DOTNOISE_MAX_LINE 4096
 static dotnoiseCompletionCallback *completionCallback = NULL;
 
@@ -13,7 +25,7 @@ struct dotnoiseState {
 	const char* prompt;
 	size_t prompt_length;
 	size_t position;
-	size_t position_length;
+	size_t old_position;
 	size_t length;
 	size_t columns;
 };
@@ -23,6 +35,7 @@ enum KEY_ACTION {
 	CTRL_D = 4,
 	TAB = 9,
 	ENTER = 13,
+	ESC = 27,
 	BACKSPACE = 127
 };
 
@@ -43,7 +56,7 @@ static int enableRawMode (int fd)
 		atexit_registered = TRUE;
 	}
 
-	if (tcgetattr(fd, &orig_termios) == -1)
+	if (tcgetattr(fd, &original_termios) == -1)
 		goto fatal;
 
 	raw = original_termios;
@@ -146,7 +159,7 @@ static void freeCompletions (dotnoiseCompletions *dc)
 {
 	size_t i;
 
-	for (i = 0; i < dc->completions; i++)
+	for (i = 0; i < dc->length; i++)
 		free(dc->completions[i]);
 
 	if (dc->completions)
@@ -163,7 +176,7 @@ void dotnoiseSetCompletionCallback (dotnoiseCompletionCallback *func)
 	completionCallback = func;
 }
 
-void dotnoiseAddCompletion (dotnoiseCompletions *dc, const char *str)
+void dotnoiseAddCompletion (const char *str, dotnoiseCompletions *dc)
 {
 	/* TODO */
 }
@@ -318,7 +331,7 @@ static int dotnoiseRaw (char *buffer, size_t buffer_length, const char *prompt)
 	return count;
 }
 
-char *dotnoise (cost char *prompt)
+char *dotnoise (const char *prompt)
 {
 	char buffer[DOTNOISE_MAX_LINE];
 	int count;
