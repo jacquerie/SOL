@@ -320,7 +320,30 @@ static void refreshLine (struct dotnoiseState *ds)
 
 int dotnoiseEditInsert (struct dotnoiseState *ds, char c)
 {
-	/* TODO */
+	if (ds->length < ds->buffer_length) {
+		if (ds->length == ds->position) {
+			ds->buffer[ds->position] = c;
+			ds->length++;
+			ds->position++;
+			ds->buffer[ds->length] = '\0';
+
+			if (ds->prompt_length + ds->length < ds->columns) {
+				if (write(ds->ofd, &c, 1) == -1)
+					return -1;
+			} else {
+				refreshLine(ds);
+			}
+		} else {
+			memmove(ds->buffer + ds->position + 1, ds->buffer + ds->position, ds->length - ds->position);
+			ds->buffer[ds->position] = c;
+			ds->length++;
+			ds->position++;
+			ds->buffer[ds->length] = '\0';
+			refreshLine(ds);
+		}
+	}
+
+	return 0;
 }
 
 void dotnoiseEditDelete (struct dotnoiseState *ds)
