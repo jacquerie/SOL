@@ -1,4 +1,4 @@
-CFLAGS=-Wall -pedantic
+CFLAGS=-Wall -pedantic -g
 
 dotnoise_test: dotnoise_test.c dotnoise.c
 

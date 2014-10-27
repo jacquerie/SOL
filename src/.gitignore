@@ -1,3 +1,5 @@
 debosh
 dotnoise_test
 trie_test
+
+*.dSYM
