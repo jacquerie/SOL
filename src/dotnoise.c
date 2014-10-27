@@ -150,7 +150,7 @@ fallback:
 
 static void dotnoiseBeep (void)
 {
-	fprintf(stderr, "\xe7");
+	fprintf(stderr, "\x7");
 	fflush(stderr);
 }
 
@@ -390,7 +390,7 @@ static int dotnoiseEdit (int stdin_fd, int stdout_fd, char *buffer, size_t buffe
 	while (TRUE) {
 		char c;
 
-		if (read(ds.ifd, &c, 1))
+		if (read(ds.ifd, &c, 1) <= 0)
 			return ds.length;
 
 		if (c == TAB && completionCallback != NULL) {
