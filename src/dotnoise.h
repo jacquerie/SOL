@@ -6,7 +6,7 @@ typedef struct dotnoiseCompletions {
 	char** completions;
 } dotnoiseCompletions;
 
-typedef void(dotnoiseCompletionCallback)(const char*, dotnoiseCompletions*);
+typedef void (dotnoiseCompletionCallback)(const char*, dotnoiseCompletions*);
 void dotnoiseSetCompletionCallback (dotnoiseCompletionCallback*);
 void dotnoiseAddCompletion (const char*, dotnoiseCompletions*);
 
