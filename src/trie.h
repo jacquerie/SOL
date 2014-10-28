@@ -8,8 +8,12 @@ typedef union trie_t {
 	union trie_t *chars[TRIE_NODE_SIZE];
 } trie_t;
 
+typedef void (trieLeafCallback)(const char*);
+void trieSetLeafCallback (trieLeafCallback*);
+
 trie_t* trieInit (void);
 void trieAdd (trie_t*, char*);
+void trieComplete (trie_t*, char *);
 int trieExists (trie_t*, char*);
 void trieFree (trie_t*);
 
