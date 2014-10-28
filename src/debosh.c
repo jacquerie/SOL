@@ -4,15 +4,8 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
-void deboshBatch (DIR* commandPath, DIR* dataPath, FILE* batchFile)
-{
-	printf("Running debosh in batch mode.\n");
-}
-
-void deboshInteractive (DIR* commandPath, DIR* dataPath)
-{
-	printf("Running debosh in interactive mode.\n");
-}
+#include "batch.h"
+#include "interactive.h"
 
 int main (int argc, char *argv[])
 {

@@ -5,7 +5,7 @@ all: debosh dotnoise_test trie_test
 clean:
 	rm -f debosh dotnoise_test trie_test
 
-debosh: debosh.c
+debosh: debosh.c batch.c interactive.c
 
 dotnoise_test: dotnoise_test.c dotnoise.c
 
