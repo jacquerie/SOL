@@ -12,9 +12,9 @@ typedef void (trieLeafCallback)(const char*);
 void trieSetLeafCallback (trieLeafCallback*);
 
 trie_t* trieInit (void);
-void trieAdd (trie_t*, char*);
-void trieComplete (trie_t*, char *);
-int trieExists (trie_t*, char*);
+void trieAdd (trie_t*, const char*);
+void trieComplete (trie_t*, const char*);
+int trieExists (trie_t*, const char*);
 void trieFree (trie_t*);
 
 #endif
