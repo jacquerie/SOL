@@ -21,6 +21,19 @@ void trie_add (trie_t* t, char* word)
 	t->sentinel = TRUE;
 }
 
+int trie_exists (trie_t *t, char *word)
+{
+	int c;
+
+	while ((c = *word++)) {
+		if (t->chars[c] == NULL)
+			return FALSE;
+		t = t->chars[c];
+	}
+
+	return t->sentinel;
+}
+
 void trie_free (trie_t *t)
 {
 	int i;
