@@ -1,6 +1,6 @@
 CFLAGS=-Wall -pedantic -g
 
-all: dotnoise_test trie_test
+all: debosh dotnoise_test trie_test
 
 clean:
 	rm -f debosh dotnoise_test trie_test
