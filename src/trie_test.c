@@ -14,7 +14,7 @@ void trie_walk (trie_t *t, char *word)
 
 	for (c = 1; c < TRIE_SIZE; c++) {
 		if (t->chars[c]) {
-			current_word = realloc(current_word, strlen(current_word + 1));
+			current_word = realloc(current_word, strlen(current_word) + 1);
 			strncat(current_word, (char*) &c, 1);
 
 			trie_walk(t->chars[c], current_word);
@@ -48,7 +48,7 @@ int main (void)
 	trie_add(t, "foobar");
 
 	/* Print all words that start with the given prefix. */
-	trie_complete(t, "foo");
+	trie_complete(t, "f");
 
 	/* Cleanup. */
 	trie_free(t);
