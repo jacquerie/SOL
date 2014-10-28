@@ -4,7 +4,7 @@
 
 #include "trie.h"
 
-void trie_walk (trie_t *t, char *word)
+void trieWalk (trie_t *t, char *word)
 {
 	char *current_word = strdup(word);
 	int c;
@@ -12,19 +12,19 @@ void trie_walk (trie_t *t, char *word)
 	if (t->sentinel)
 		printf("%s\n", word);
 
-	for (c = 1; c < TRIE_SIZE; c++) {
+	for (c = 1; c < TRIE_NODE_SIZE; c++) {
 		if (t->chars[c]) {
 			current_word = realloc(current_word, strlen(current_word) + 1);
 			strncat(current_word, (char*) &c, 1);
 
-			trie_walk(t->chars[c], current_word);
+			trieWalk(t->chars[c], current_word);
 		}
 	}
 
 	free(current_word);
 }
 
-void trie_complete (trie_t *t, char *prefix)
+void trieComplete (trie_t *t, char *prefix)
 {
 	char *original_prefix = prefix;
 	int c;
@@ -35,23 +35,23 @@ void trie_complete (trie_t *t, char *prefix)
 		t = t->chars[c];
 	}
 
-	trie_walk(t, original_prefix);
+	trieWalk(t, original_prefix);
 }
 
 int main (void)
 {
-	trie_t* t = trie_init();
+	trie_t *t = trieInit();
 
 	/* Add some words in the trie. */
-	trie_add(t, "foo");
-	trie_add(t, "bar");
-	trie_add(t, "foobar");
+	trieAdd(t, "foo");
+	trieAdd(t, "bar");
+	trieAdd(t, "foobar");
 
 	/* Print all words that start with the given prefix. */
-	trie_complete(t, "f");
+	trieComplete(t, "f");
 
 	/* Cleanup. */
-	trie_free(t);
+	trieFree(t);
 
 	return 0;
 }
