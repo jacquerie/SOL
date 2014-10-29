@@ -14,15 +14,21 @@ int main (int argc, char *argv[])
 	FILE *batch_file;
 
 	if (argc == 3 || argc == 4) {
-		cmd_path = opendir(argv[1]);
-		data_path = opendir(argv[2]);
+		if ((cmd_path = opendir(argv[1])) == NULL) {
+			perror(argv[1]);
+			exit(EXIT_FAILURE);
+		}
 
-		if (cmd_path == NULL || data_path == NULL)
-			goto fatal;
+		if ((data_path = opendir(argv[2])) == NULL) {
+			perror(argv[2]);
+			exit(EXIT_FAILURE);
+		}
 
 		if (argc == 4) {
-			if ((batch_file = fopen(argv[3], "r")) == NULL)
-				goto fatal;
+			if ((batch_file = fopen(argv[3], "r")) == NULL) {
+				perror(argv[3]);
+				exit(EXIT_FAILURE);
+			}
 
 			deboshBatch(cmd_path, data_path, batch_file);
 		} else {
@@ -34,8 +40,4 @@ int main (int argc, char *argv[])
 	}
 
 	exit(EXIT_SUCCESS);
-
-fatal:
-	errno = ENOENT;
-	exit(EXIT_FAILURE);
 }
