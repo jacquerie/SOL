@@ -9,24 +9,24 @@
 
 int main (int argc, char *argv[])
 {
-	DIR *commandPath;
-	DIR *dataPath;
-	FILE *batchFile;
+	DIR *cmd_path;
+	DIR *data_path;
+	FILE *batch_file;
 
 	if (argc == 3 || argc == 4) {
-		commandPath = opendir(argv[1]);
-		dataPath = opendir(argv[2]);
+		cmd_path = opendir(argv[1]);
+		data_path = opendir(argv[2]);
 
-		if (commandPath == NULL || dataPath == NULL)
+		if (cmd_path == NULL || data_path == NULL)
 			goto fatal;
 
 		if (argc == 4) {
-			if ((batchFile = fopen(argv[3], "r")) == NULL)
+			if ((batch_file = fopen(argv[3], "r")) == NULL)
 				goto fatal;
 
-			deboshBatch(commandPath, dataPath, batchFile);
+			deboshBatch(cmd_path, data_path, batch_file);
 		} else {
-			deboshInteractive(commandPath, dataPath);
+			deboshInteractive(cmd_path, data_path);
 		}
 	} else {
 		fprintf(stderr, "Usage: %s commandPath dataPath [batchFile]\n", argv[0]);
