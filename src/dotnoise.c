@@ -442,7 +442,7 @@ static int dotnoiseRaw (char *buffer, size_t buffer_length, const char *prompt)
 			buffer[count] = '\0';
 		}
 	} else {
-		if (enableRawMode(STDIN_FILENO))
+		if (enableRawMode(STDIN_FILENO) == -1)
 			return -1;
 
 		count = dotnoiseEdit(STDIN_FILENO, STDOUT_FILENO, buffer, buffer_length, prompt);
