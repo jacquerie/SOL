@@ -1,3 +1,4 @@
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,21 +7,19 @@
 
 void trieWalk (trie_t *t, const char *word)
 {
-	char *current_word = strdup(word);
 	int i;
 
 	if (t->sentinel)
-		printf("%s\n", current_word);
+		printf("%s\n", word);
 
 	for (i = 1; i < TRIE_NODE_SIZE; i++)
 		if (t->chars[i]) {
-			current_word = realloc(current_word, strlen(current_word) + 1);
+			char *current_word = malloc(strlen(word) + 1);
+			strncat(current_word, word, strlen(word));
 			strncat(current_word, (char*) &i, 1);
 
 			trieWalk(t->chars[i], current_word);
 		}
-
-	free(current_word);
 }
 
 void trieComplete (trie_t *t, const char *prefix)
@@ -40,13 +39,39 @@ void trieComplete (trie_t *t, const char *prefix)
 
 int main (void)
 {
+	DIR* bin = opendir("/bin");
 	trie_t *t = trieInit();
+	struct dirent *ent;
 
-	trieAdd(t, "foo");
-	trieAdd(t, "bar");
-	trieAdd(t, "foobar");
+	while ((ent = readdir(bin)))
+		if (ent->d_name[0] == 'n')
+			printf("%s\n", ent->d_name);
+	printf("\n");
 
-	trieComplete(t, "f");
+	trieAdd(t, "nano");
+	trieAdd(t, "nc");
+	trieAdd(t, "nc.traditional");
+	trieAdd(t, "netcat");
+	trieAdd(t, "netstat");
+	trieAdd(t, "nisdomainname");
+	trieAdd(t, "ntfs-3g");
+	trieAdd(t, "ntfs-3g.probe");
+	trieAdd(t, "ntfs-3g.secaudit");
+	trieAdd(t, "ntfs-3g.usermap");
+	trieAdd(t, "ntfscat");
+	trieAdd(t, "ntfsck");
+	trieAdd(t, "ntfscluster");
+	trieAdd(t, "ntfscmp");
+	trieAdd(t, "ntfsdump_logfile");
+	trieAdd(t, "ntfsfix");
+	trieAdd(t, "ntfsinfo");
+	trieAdd(t, "ntfsls");
+	trieAdd(t, "ntfsmftalloc");
+	trieAdd(t, "ntfsmove");
+	trieAdd(t, "ntfstruncate");
+	trieAdd(t, "ntfswipe");
+
+	trieComplete(t, "n");
 
 	trieFree(t);
 
