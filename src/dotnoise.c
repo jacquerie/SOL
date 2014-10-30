@@ -25,7 +25,6 @@ struct dotnoiseState {
 	const char* prompt;
 	size_t prompt_length;
 	size_t position;
-	size_t old_position;
 	size_t length;
 	size_t columns;
 };
@@ -377,7 +376,7 @@ static int dotnoiseEdit (int stdin_fd, int stdout_fd, char *buffer, size_t buffe
 	ds.buffer_length = buffer_length;
 	ds.prompt = prompt;
 	ds.prompt_length = strlen(prompt);
-	ds.old_position = ds.position = 0;
+	ds.position = 0;
 	ds.length = 0;
 	ds.columns = getColumns(stdin_fd, stdout_fd);
 
