@@ -10,27 +10,35 @@
 static trie_t *cmd_trie;
 static trie_t *data_trie;
 
-void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *buffer)
+void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *buffer, const char *prefix)
 {
 	int i;
+	size_t buffer_length = strlen(buffer);
 
-	if (t->sentinel)
-		dotnoiseAddCompletion(buffer, dc);
+	if (t->sentinel) {
+		size_t prefix_length = strlen(prefix);
+		char *next_buffer = calloc(1, prefix_length + buffer_length + 1);
+
+		memcpy(next_buffer, prefix, prefix_length);
+		memcpy(next_buffer + prefix_length, buffer, buffer_length);
+		next_buffer[prefix_length + buffer_length] = '\0';
+
+		dotnoiseAddCompletion(next_buffer, dc);
+	}
 
 	for (i = 1; i < TRIE_NODE_SIZE; i++)
 		if (t->chars[i]) {
-			size_t length = strlen(buffer);
-			char *next_buffer = malloc(length + 1 + 1);
+			char *next_buffer = calloc(1, buffer_length + 1 + 1);
 
-			strncpy(next_buffer, buffer, length);
-			next_buffer[length] = (char) i;
-			next_buffer[length + 1] = '\0';
+			memcpy(next_buffer, buffer, buffer_length);
+			next_buffer[buffer_length] = (char) i;
+			next_buffer[buffer_length + 1] = '\0';
 
-			trieWalk(t->chars[i], dc, next_buffer);
+			trieWalk(t->chars[i], dc, next_buffer, prefix);
 		}
 }
 
-void trieComplete (trie_t *t, dotnoiseCompletions *dc, const char *buffer)
+void trieComplete (trie_t *t, dotnoiseCompletions *dc, const char *buffer, const char *prefix)
 {
 	const char *original_buffer = buffer;
 	int c;
@@ -42,15 +50,23 @@ void trieComplete (trie_t *t, dotnoiseCompletions *dc, const char *buffer)
 		t = t->chars[c];
 	}
 
-	trieWalk(t, dc, original_buffer);
+	trieWalk(t, dc, original_buffer, prefix);
 }
 
 void completion (const char *buffer, dotnoiseCompletions *dc)
 {
-	if (strchr(buffer, ' ')) {
-		/* TODO */
+	char *last_space = strrchr(buffer, ' ');
+
+	if (last_space) {
+		size_t prefix_length = last_space - buffer;
+		char *prefix = calloc(1, prefix_length + 1 + 1);
+
+		memcpy(prefix, buffer, prefix_length + 1);
+		prefix[prefix_length + 1] = '\0';
+
+		trieComplete(data_trie, dc, last_space + 1, prefix);
 	} else {
-		trieComplete(cmd_trie, dc, buffer);
+		trieComplete(cmd_trie, dc, buffer, "");
 	}
 }
 
