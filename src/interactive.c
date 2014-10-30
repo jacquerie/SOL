@@ -19,11 +19,14 @@ void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *buffer)
 
 	for (i = 1; i < TRIE_NODE_SIZE; i++)
 		if (t->chars[i]) {
-			char *current_buffer = malloc(strlen(buffer) + 1);
-			strncat(current_buffer, buffer, strlen(buffer));
-			strncat(current_buffer, (char*) &i, 1);
+			size_t length = strlen(buffer);
+			char *next_buffer = malloc(length + 1 + 1);
 
-			trieWalk(t->chars[i], dc, current_buffer);
+			strncpy(next_buffer, buffer, length);
+			next_buffer[length] = (char) i;
+			next_buffer[length + 1] = '\0';
+
+			trieWalk(t->chars[i], dc, next_buffer);
 		}
 }
 
