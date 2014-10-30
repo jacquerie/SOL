@@ -58,11 +58,11 @@ void completion (const char *buffer, dotnoiseCompletions *dc)
 	char *last_space = strrchr(buffer, ' ');
 
 	if (last_space) {
-		size_t prefix_length = last_space - buffer;
-		char *prefix = calloc(1, prefix_length + 1 + 1);
+		size_t prefix_length = last_space - buffer + 1;
+		char *prefix = calloc(1, prefix_length + 1);
 
-		memcpy(prefix, buffer, prefix_length + 1);
-		prefix[prefix_length + 1] = '\0';
+		memcpy(prefix, buffer, prefix_length);
+		prefix[prefix_length] = '\0';
 
 		trieComplete(data_trie, dc, last_space + 1, prefix);
 	} else {
