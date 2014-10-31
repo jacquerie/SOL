@@ -17,13 +17,13 @@ void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *prefix, const cha
 
 	if (t->sentinel) {
 		size_t prefix_length = strlen(prefix);
-		char *next_buffer = calloc(1, prefix_length + buffer_length + 1);
+		char *current_buffer = calloc(1, prefix_length + buffer_length + 1);
 
-		memcpy(next_buffer, prefix, prefix_length);
-		memcpy(next_buffer + prefix_length, buffer, buffer_length);
-		next_buffer[prefix_length + buffer_length] = '\0';
+		memcpy(current_buffer, prefix, prefix_length);
+		memcpy(current_buffer + prefix_length, buffer, buffer_length);
+		current_buffer[prefix_length + buffer_length] = '\0';
 
-		dotnoiseAddCompletion(next_buffer, dc);
+		dotnoiseAddCompletion(current_buffer, dc);
 	}
 
 	for (i = 1; i < TRIE_NODE_SIZE; i++)
