@@ -10,7 +10,7 @@
 static trie_t *cmd_trie;
 static trie_t *data_trie;
 
-void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *buffer, const char *prefix)
+void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *prefix, const char *buffer)
 {
 	int i;
 	size_t buffer_length = strlen(buffer);
@@ -34,11 +34,11 @@ void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *buffer, const cha
 			next_buffer[buffer_length] = (char) i;
 			next_buffer[buffer_length + 1] = '\0';
 
-			trieWalk(t->chars[i], dc, next_buffer, prefix);
+			trieWalk(t->chars[i], dc, prefix, next_buffer);
 		}
 }
 
-void trieComplete (trie_t *t, dotnoiseCompletions *dc, const char *buffer, const char *prefix)
+void trieComplete (trie_t *t, dotnoiseCompletions *dc, const char *prefix, const char *buffer)
 {
 	const char *original_buffer = buffer;
 	int c;
@@ -50,7 +50,7 @@ void trieComplete (trie_t *t, dotnoiseCompletions *dc, const char *buffer, const
 		t = t->chars[c];
 	}
 
-	trieWalk(t, dc, original_buffer, prefix);
+	trieWalk(t, dc, prefix, original_buffer);
 }
 
 void completion (const char *buffer, dotnoiseCompletions *dc)
@@ -64,9 +64,9 @@ void completion (const char *buffer, dotnoiseCompletions *dc)
 		memcpy(prefix, buffer, prefix_length);
 		prefix[prefix_length] = '\0';
 
-		trieComplete(data_trie, dc, last_space + 1, prefix);
+		trieComplete(data_trie, dc, prefix, last_space + 1);
 	} else {
-		trieComplete(cmd_trie, dc, buffer, "");
+		trieComplete(cmd_trie, dc, "", buffer);
 	}
 }
 
