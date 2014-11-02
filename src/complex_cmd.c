@@ -24,5 +24,8 @@ void complexCmdExecute (complex_cmd ccmd)
 
 void complexCmdFree (complex_cmd ccmd)
 {
-	/* TODO */
+	if (ccmd->next)
+		complexCmdFree(ccmd->next);
+
+	free(ccmd);
 }
