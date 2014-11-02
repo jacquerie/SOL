@@ -7,10 +7,10 @@ typedef struct simple_cmd {
 	struct simple_cmd *next;
 } simple_cmd;
 
-typedef simple_cmd *complex_cmd;
+typedef struct simple_cmd *complex_cmd;
 
-complex_cmd complexCmdInit (void);
-void complexCmdAppend (simple_cmd);
+struct simple_cmd* simpleCmdInit (void);
+void complexCmdAppend (complex_cmd, struct simple_cmd*);
 void complexCmdExecute (complex_cmd);
 void complexCmdFree (complex_cmd);
 
