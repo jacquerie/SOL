@@ -8,9 +8,12 @@ complex_cmd* complexCmdInit (void)
 	return calloc(1, sizeof(complex_cmd));
 }
 
-void complexCmdAppend (complex_cmd *ccmd, simple_cmd *scmd)
+void complexCmdAppend (complex_cmd *ccmd, char *str)
 {
 	complex_cmd *tmp = ccmd;
+	simple_cmd *scmd = simpleCmdInit();
+
+	simpleCmdParse(scmd, str);
 
 	while (tmp->scmd && tmp->next)
 		tmp = tmp->next;

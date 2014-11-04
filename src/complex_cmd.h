@@ -12,7 +12,7 @@ typedef struct complex_cmd {
 } complex_cmd;
 
 complex_cmd* complexCmdInit (void);
-void complexCmdAppend (complex_cmd*, simple_cmd*);
+void complexCmdAppend (complex_cmd*, char*);
 void complexCmdExecute (complex_cmd*);
 void complexCmdFree (complex_cmd*);
 
