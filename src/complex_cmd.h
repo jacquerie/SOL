@@ -16,9 +16,4 @@ void complexCmdAppend (complex_cmd*, char*);
 void complexCmdExecute (complex_cmd*);
 void complexCmdFree (complex_cmd*);
 
-simple_cmd* simpleCmdInit (void);
-void simpleCmdParse(simple_cmd*, char*);
-void simpleCmdFree (simple_cmd*);
-void simpleCmdExecute (simple_cmd*);
-
 #endif

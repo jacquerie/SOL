@@ -3,6 +3,11 @@
 
 #include "complex_cmd.h"
 
+simple_cmd* simpleCmdInit (void);
+void simpleCmdParse(simple_cmd*, char*);
+void simpleCmdFree (simple_cmd*);
+void simpleCmdExecute (simple_cmd*);
+
 complex_cmd* complexCmdInit (void)
 {
 	return calloc(1, sizeof(complex_cmd));
