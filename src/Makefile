@@ -7,8 +7,6 @@ clean:
 
 debosh: batch.c debosh.c dotnoise.c interactive.c trie.c
 
-complex_cmd_test: complex_cmd_test.c complex_cmd.c
-
 dotnoise_test: dotnoise_test.c dotnoise.c
 
 trie_test: trie_test.c trie.c
