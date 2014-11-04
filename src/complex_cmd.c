@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "complex_cmd.h"
@@ -21,6 +22,19 @@ void complexCmdAppend (complex_cmd *ccmd, simple_cmd *scmd)
 	} else {
 		tmp->scmd = scmd;
 	}
+}
+
+void complexCmdExecute (complex_cmd *ccmd)
+{
+	complex_cmd *tmp = ccmd;
+
+	while (tmp->scmd && tmp->next) {
+		simpleCmdExecute(tmp->scmd);
+		tmp = tmp->next;
+	}
+
+	if (tmp->scmd)
+		simpleCmdExecute(tmp->scmd);
 }
 
 void complexCmdFree (complex_cmd *ccmd)
@@ -50,4 +64,9 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 void simpleCmdFree (simple_cmd *scmd)
 {
 	free(scmd);
+}
+
+void simpleCmdExecute (simple_cmd *scmd)
+{
+	printf("%s\n", scmd->cmd); /* TODO */
 }
