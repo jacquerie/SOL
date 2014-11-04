@@ -23,6 +23,20 @@ void complexCmdAppend (complex_cmd *ccmd, simple_cmd *scmd)
 	}
 }
 
+void complexCmdFree (complex_cmd *ccmd)
+{
+	complex_cmd *tmp;
+
+	while ((tmp = ccmd)) {
+		ccmd = ccmd->next;
+
+		if (tmp->scmd)
+			simpleCmdFree(tmp->scmd);
+
+		free(tmp);
+	}
+}
+
 simple_cmd* simpleCmdInit (void)
 {
 	return calloc(1, sizeof(simple_cmd));
@@ -31,4 +45,9 @@ simple_cmd* simpleCmdInit (void)
 void simpleCmdParse (simple_cmd *scmd, char *str)
 {
 	scmd->cmd = str; /* TODO */
+}
+
+void simpleCmdFree (simple_cmd *scmd)
+{
+	free(scmd);
 }

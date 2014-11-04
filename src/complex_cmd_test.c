@@ -7,4 +7,8 @@ int main (void)
 
 	simpleCmdParse(scmd, "foo bar baz");
 	complexCmdAppend(ccmd, scmd);
+
+	complexCmdFree(ccmd);
+
+	return 0;
 }

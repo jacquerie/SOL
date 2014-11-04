@@ -13,8 +13,10 @@ typedef struct complex_cmd {
 
 complex_cmd* complexCmdInit (void);
 void complexCmdAppend (complex_cmd*, simple_cmd*);
+void complexCmdFree (complex_cmd*);
 
 simple_cmd* simpleCmdInit (void);
 void simpleCmdParse(simple_cmd*, char*);
+void simpleCmdFree (simple_cmd*);
 
 #endif
