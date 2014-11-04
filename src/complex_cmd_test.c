@@ -3,10 +3,18 @@
 int main (void)
 {
 	complex_cmd *ccmd = complexCmdInit();
-	simple_cmd *scmd = simpleCmdInit();
 
-	simpleCmdParse(scmd, "foo bar baz");
-	complexCmdAppend(ccmd, scmd);
+	simple_cmd *foo = simpleCmdInit();
+	simple_cmd *bar = simpleCmdInit();
+	simple_cmd *baz = simpleCmdInit();
+
+	simpleCmdParse(foo, "foo");
+	simpleCmdParse(bar, "bar");
+	simpleCmdParse(baz, "baz");
+
+	complexCmdAppend(ccmd, foo);
+	complexCmdAppend(ccmd, bar);
+	complexCmdAppend(ccmd, baz);
 
 	complexCmdFree(ccmd);
 
