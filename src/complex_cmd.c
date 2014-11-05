@@ -67,14 +67,28 @@ simple_cmd* simpleCmdInit (void)
 
 void simpleCmdParse (simple_cmd *scmd, char *str)
 {
-	char *cmd;
-	size_t length = strlen(str);
+	char *cmd, *cpy, *data, *tmp;
+	size_t cmd_length, data_length, length = strlen(str);
 
-	cmd = malloc(length + 1);
-	memcpy(cmd, str, length);
-	cmd[length] = '\0';
+	cpy = malloc(length + 1);
+	memcpy(cpy, str, length);
+	cpy[length] = '\0';
+
+	tmp = cpy;
+	strsep(&cpy, " ");
+
+	cmd_length = strlen(tmp);
+	cmd = malloc(cmd_length + 1);
+	memcpy(cmd, tmp, cmd_length);
+	cmd[cmd_length] = '\0';
+
+	data_length = strlen(cpy);
+	data = malloc(data_length + 1);
+	memcpy(data, cpy, data_length);
+	data[data_length] = '\0';
 
 	scmd->cmd = cmd;
+	scmd->data = data;
 }
 
 void simpleCmdFree (simple_cmd *scmd)
@@ -85,5 +99,5 @@ void simpleCmdFree (simple_cmd *scmd)
 
 void simpleCmdExecute (simple_cmd *scmd)
 {
-	printf("%s\n", scmd->cmd); /* TODO */
+	printf("%s\t%s\n", scmd->cmd, scmd->data); /* TODO */
 }
