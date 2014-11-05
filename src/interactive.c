@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "complex_cmd.h"
 #include "dotnoise.h"
 #include "interactive.h"
 #include "trie.h"
@@ -73,6 +74,7 @@ void completion (const char *buffer, dotnoiseCompletions *dc)
 void deboshInteractive (DIR* cmd_path, DIR* data_path)
 {
 	char *line;
+	struct complex_cmd *ccmd;
 	struct dirent *ent;
 
 	cmd_trie = trieInit();
@@ -85,9 +87,16 @@ void deboshInteractive (DIR* cmd_path, DIR* data_path)
 
 	dotnoiseSetCompletionCallback(completion);
 
-	while ((line = dotnoise("> ")))
-		free(line);
+	ccmd = complexCmdInit();
+	while ((line = dotnoise("> "))) {
+		complexCmdAppend(ccmd, line);
 
+		free(line);
+	}
+
+	complexCmdExecute(ccmd);
+
+	complexCmdFree(ccmd);
 	trieFree(cmd_trie);
 	trieFree(data_trie);
 }

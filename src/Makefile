@@ -5,7 +5,7 @@ all: debosh complex_cmd_test dotnoise_test trie_test
 clean:
 	rm -f debosh complex_cmd_test dotnoise_test trie_test
 
-debosh: batch.c debosh.c dotnoise.c interactive.c trie.c
+debosh: batch.c complex_cmd.c debosh.c dotnoise.c interactive.c trie.c
 
 complex_cmd_test: complex_cmd_test.c complex_cmd.c
 

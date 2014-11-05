@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "complex_cmd.h"
 
@@ -66,11 +67,19 @@ simple_cmd* simpleCmdInit (void)
 
 void simpleCmdParse (simple_cmd *scmd, char *str)
 {
-	scmd->cmd = str; /* TODO */
+	char *cmd;
+	size_t length = strlen(str);
+
+	cmd = malloc(length + 1);
+	memcpy(cmd, str, length);
+	cmd[length] = '\0';
+
+	scmd->cmd = cmd;
 }
 
 void simpleCmdFree (simple_cmd *scmd)
 {
+	free(scmd->cmd);
 	free(scmd);
 }
 
