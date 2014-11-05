@@ -98,8 +98,6 @@ void deboshInteractive (DIR* exe_path, DIR* data_path)
 		}
 	}
 
-	complexCmdExecute(ccmd);
-
 	complexCmdFree(ccmd);
 	trieFree(exe_trie);
 	trieFree(data_trie);

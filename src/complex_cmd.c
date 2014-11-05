@@ -7,7 +7,6 @@
 simple_cmd* simpleCmdInit (void);
 void simpleCmdParse(simple_cmd*, char*);
 void simpleCmdFree (simple_cmd*);
-void simpleCmdExecute (simple_cmd*);
 
 complex_cmd* complexCmdInit (void)
 {
@@ -31,19 +30,6 @@ void complexCmdAppend (complex_cmd *ccmd, char *str)
 	} else {
 		tmp->scmd = scmd;
 	}
-}
-
-void complexCmdExecute (complex_cmd *ccmd)
-{
-	complex_cmd *tmp = ccmd;
-
-	while (tmp->scmd && tmp->next) {
-		simpleCmdExecute(tmp->scmd);
-		tmp = tmp->next;
-	}
-
-	if (tmp->scmd)
-		simpleCmdExecute(tmp->scmd);
 }
 
 void complexCmdFree (complex_cmd *ccmd)
@@ -97,9 +83,4 @@ void simpleCmdFree (simple_cmd *scmd)
 	free(scmd->data);
 
 	free(scmd);
-}
-
-void simpleCmdExecute (simple_cmd *scmd)
-{
-	printf("%s\t%s\n", scmd->exe, scmd->data); /* TODO */
 }

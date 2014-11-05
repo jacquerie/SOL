@@ -38,8 +38,6 @@ void deboshBatch (DIR* exe_path, DIR* data_path, FILE* batch_file)
 		}
 	}
 
-	complexCmdExecute(ccmd);
-
 	complexCmdFree(ccmd);
 	trieFree(exe_trie);
 	trieFree(data_trie);
