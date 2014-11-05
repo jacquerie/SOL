@@ -103,4 +103,7 @@ void deboshInteractive (DIR* cmd_path, DIR* data_path)
 	complexCmdFree(ccmd);
 	trieFree(cmd_trie);
 	trieFree(data_trie);
+
+	closedir(cmd_path);
+	closedir(data_path);
 }
