@@ -2,7 +2,7 @@
 #define __COMPLEX_CMD_H
 
 typedef struct simple_cmd {
-	char *cmd;
+	char *exe;
 	char *data;
 } simple_cmd;
 

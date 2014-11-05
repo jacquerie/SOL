@@ -67,8 +67,8 @@ simple_cmd* simpleCmdInit (void)
 
 void simpleCmdParse (simple_cmd *scmd, char *str)
 {
-	char *cmd, *cpy, *data, *tmp;
-	size_t cmd_length, data_length, length = strlen(str);
+	char *cpy, *data, *exe, *tmp;
+	size_t exe_length, data_length, length = strlen(str);
 
 	cpy = malloc(length + 1);
 	memcpy(cpy, str, length);
@@ -77,23 +77,23 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 	tmp = cpy;
 	strsep(&cpy, " ");
 
-	cmd_length = strlen(tmp);
-	cmd = malloc(cmd_length + 1);
-	memcpy(cmd, tmp, cmd_length);
-	cmd[cmd_length] = '\0';
+	exe_length = strlen(tmp);
+	exe = malloc(exe_length + 1);
+	memcpy(exe, tmp, exe_length);
+	exe[exe_length] = '\0';
 
 	data_length = strlen(cpy);
 	data = malloc(data_length + 1);
 	memcpy(data, cpy, data_length);
 	data[data_length] = '\0';
 
-	scmd->cmd = cmd;
+	scmd->exe = exe;
 	scmd->data = data;
 }
 
 void simpleCmdFree (simple_cmd *scmd)
 {
-	free(scmd->cmd);
+	free(scmd->exe);
 	free(scmd->data);
 
 	free(scmd);
@@ -101,5 +101,5 @@ void simpleCmdFree (simple_cmd *scmd)
 
 void simpleCmdExecute (simple_cmd *scmd)
 {
-	printf("%s\t%s\n", scmd->cmd, scmd->data); /* TODO */
+	printf("%s\t%s\n", scmd->exe, scmd->data); /* TODO */
 }
