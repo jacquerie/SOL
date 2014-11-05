@@ -94,6 +94,8 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 void simpleCmdFree (simple_cmd *scmd)
 {
 	free(scmd->cmd);
+	free(scmd->data);
+
 	free(scmd);
 }
 
