@@ -89,9 +89,13 @@ void deboshInteractive (DIR* cmd_path, DIR* data_path)
 
 	ccmd = complexCmdInit();
 	while ((line = dotnoise("> "))) {
-		complexCmdAppend(ccmd, line);
-
-		free(line);
+		if (strncmp(line, ".", 1)) {
+			complexCmdAppend(ccmd, line);
+			free(line);
+		} else {
+			free(line);
+			break;
+		}
 	}
 
 	complexCmdExecute(ccmd);
