@@ -9,12 +9,12 @@
 
 int main (int argc, char *argv[])
 {
-	DIR *cmd_path;
+	DIR *exe_path;
 	DIR *data_path;
 	FILE *batch_file;
 
 	if (argc == 3 || argc == 4) {
-		if ((cmd_path = opendir(argv[1])) == NULL) {
+		if ((exe_path = opendir(argv[1])) == NULL) {
 			perror(argv[1]);
 			exit(EXIT_FAILURE);
 		}
@@ -30,12 +30,12 @@ int main (int argc, char *argv[])
 				exit(EXIT_FAILURE);
 			}
 
-			deboshBatch(cmd_path, data_path, batch_file);
+			deboshBatch(exe_path, data_path, batch_file);
 		} else {
-			deboshInteractive(cmd_path, data_path);
+			deboshInteractive(exe_path, data_path);
 		}
 	} else {
-		fprintf(stderr, "Usage: %s commandPath dataPath [batchFile]\n", argv[0]);
+		fprintf(stderr, "Usage: %s exePath dataPath [batchFile]\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 

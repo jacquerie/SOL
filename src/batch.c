@@ -8,21 +8,21 @@
 
 #define BATCH_MAX_LINE 4096
 
-static trie_t *cmd_trie;
+static trie_t *exe_trie;
 static trie_t *data_trie;
 
-void deboshBatch (DIR* cmd_path, DIR* data_path, FILE* batch_file)
+void deboshBatch (DIR* exe_path, DIR* data_path, FILE* batch_file)
 {
 	char line[BATCH_MAX_LINE];
 	struct complex_cmd *ccmd;
 	struct dirent *ent;
 
-	cmd_trie = trieInit();
-	while ((ent = readdir(cmd_path)))
-		trieAdd(cmd_trie, ent->d_name);
+	exe_trie = trieInit();
+	while ((ent = readdir(exe_path)))
+		trieAdd(exe_trie, ent->d_name);
 
 	data_trie = trieInit();
-	while ((ent = readdir(cmd_path)))
+	while ((ent = readdir(data_path)))
 		trieAdd(data_trie, ent->d_name);
 
 	ccmd = complexCmdInit();
@@ -41,10 +41,10 @@ void deboshBatch (DIR* cmd_path, DIR* data_path, FILE* batch_file)
 	complexCmdExecute(ccmd);
 
 	complexCmdFree(ccmd);
-	trieFree(cmd_trie);
+	trieFree(exe_trie);
 	trieFree(data_trie);
 
-	closedir(cmd_path);
+	closedir(exe_path);
 	closedir(data_path);
 	fclose(batch_file);
 }

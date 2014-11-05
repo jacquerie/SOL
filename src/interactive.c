@@ -8,7 +8,7 @@
 #include "interactive.h"
 #include "trie.h"
 
-static trie_t *cmd_trie;
+static trie_t *exe_trie;
 static trie_t *data_trie;
 
 void trieWalk (trie_t *t, dotnoiseCompletions *dc, const char *prefix, const char *buffer)
@@ -67,19 +67,19 @@ void completion (const char *buffer, dotnoiseCompletions *dc)
 
 		trieComplete(data_trie, dc, prefix, last_space + 1);
 	} else {
-		trieComplete(cmd_trie, dc, "", buffer);
+		trieComplete(exe_trie, dc, "", buffer);
 	}
 }
 
-void deboshInteractive (DIR* cmd_path, DIR* data_path)
+void deboshInteractive (DIR* exe_path, DIR* data_path)
 {
 	char *line;
 	struct complex_cmd *ccmd;
 	struct dirent *ent;
 
-	cmd_trie = trieInit();
-	while ((ent = readdir(cmd_path)))
-		trieAdd(cmd_trie, ent->d_name);
+	exe_trie = trieInit();
+	while ((ent = readdir(exe_path)))
+		trieAdd(exe_trie, ent->d_name);
 
 	data_trie = trieInit();
 	while ((ent = readdir(data_path)))
@@ -101,9 +101,9 @@ void deboshInteractive (DIR* cmd_path, DIR* data_path)
 	complexCmdExecute(ccmd);
 
 	complexCmdFree(ccmd);
-	trieFree(cmd_trie);
+	trieFree(exe_trie);
 	trieFree(data_trie);
 
-	closedir(cmd_path);
+	closedir(exe_path);
 	closedir(data_path);
 }
