@@ -8,8 +8,6 @@ int main (void)
 	complexCmdAppend(ccmd, "bar");
 	complexCmdAppend(ccmd, "baz");
 
-	complexCmdExecute(ccmd);
-
 	complexCmdFree(ccmd);
 
 	return 0;
