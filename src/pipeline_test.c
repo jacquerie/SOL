@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "pipeline.h"
 
 int main (void)
@@ -9,9 +11,9 @@ int main (void)
 	pipeline *pipeline;
 
 	ccmd = complexCmdInit();
-	complexCmdAppend(ccmd, "foo foo");
-	complexCmdAppend(ccmd, "bar bar");
-	complexCmdAppend(ccmd, "baz baz");
+	complexCmdAppend(ccmd, "cat");
+	complexCmdAppend(ccmd, "ls");
+	complexCmdAppend(ccmd, "mv");
 
 	exe_trie = trieInit();
 	trieLoad(exe_trie, exe_path);
