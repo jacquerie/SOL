@@ -2,6 +2,7 @@ debosh
 
 complex_cmd_test
 dotnoise_test
+pipeline_test
 trie_test
 
 *.dSYM
