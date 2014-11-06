@@ -1,9 +1,12 @@
 #ifndef __COMPLEX_CMD_H
 #define __COMPLEX_CMD_H
 
+#include <stddef.h>
+
 typedef struct simple_cmd {
 	char *exe;
-	char *data;
+	char **argv;
+	size_t argc;
 } simple_cmd;
 
 typedef struct complex_cmd {

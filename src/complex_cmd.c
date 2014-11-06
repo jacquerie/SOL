@@ -15,6 +15,9 @@ complex_cmd* complexCmdInit (void)
 
 void complexCmdAppend (complex_cmd *ccmd, char *str)
 {
+	if (strlen(str) == 0)
+		return;
+
 	complex_cmd *tmp = ccmd;
 	simple_cmd *scmd = simpleCmdInit();
 
@@ -53,34 +56,56 @@ simple_cmd* simpleCmdInit (void)
 
 void simpleCmdParse (simple_cmd *scmd, char *str)
 {
-	char *cpy, *data, *exe, *tmp;
-	size_t exe_length, data_length, length = strlen(str);
+	char *cpy, *token, *exe, *arg;
+	size_t i = 0, argc = 0, length = strlen(str), exe_length, arg_length;
 
 	cpy = malloc(length + 1);
 	memcpy(cpy, str, length);
 	cpy[length] = '\0';
 
-	tmp = cpy;
-	strsep(&cpy, " ");
+	token = strtok(cpy, " ");
+	while (token) {
+		argc++;
+		token = strtok(NULL, " ");
+	}
 
-	exe_length = strlen(tmp);
+	scmd->argc = argc;
+	scmd->argv = malloc(argc * sizeof(char*));
+
+	memcpy(cpy, str, length);
+	cpy[length] = '\0';
+
+	token = strtok(cpy, " ");
+	exe_length = strlen(token);
 	exe = malloc(exe_length + 1);
-	memcpy(exe, tmp, exe_length);
+	memcpy(exe, token, exe_length);
 	exe[exe_length] = '\0';
-
-	data_length = strlen(cpy);
-	data = malloc(data_length + 1);
-	memcpy(data, cpy, data_length);
-	data[data_length] = '\0';
-
 	scmd->exe = exe;
-	scmd->data = data;
+
+	token = strtok(NULL, " ");
+	while (token) {
+		arg_length = strlen(token);
+		arg = malloc(arg_length + 1);
+		memcpy(arg, token, arg_length);
+		arg[arg_length] = '\0';
+
+		scmd->argv[i] = arg;
+		i++;
+
+		token = strtok(NULL, " ");
+	}
+
+	free(cpy);
 }
 
 void simpleCmdFree (simple_cmd *scmd)
 {
+	size_t i;
+
 	free(scmd->exe);
-	free(scmd->data);
+	for (i = 0; i < scmd->argc; i++)
+		free(scmd->argv[i]);
+	free(scmd->argv);
 
 	free(scmd);
 }
