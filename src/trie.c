@@ -1,4 +1,6 @@
+#include <dirent.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "bool.h"
 #include "trie.h"
@@ -34,6 +36,19 @@ int trieExists (trie_t *t, const char *word)
 	}
 
 	return t->sentinel;
+}
+
+void trieLoad (trie_t *t, DIR *path)
+{
+	struct dirent *ent;
+
+	while ((ent = readdir(path)))
+		if (!strncmp(ent->d_name, ".", 1) ||
+		    !strncmp(ent->d_name, "..", 2)) {
+			/* Skip . and .. */
+		} else {
+			trieAdd(t, ent->d_name);
+		}
 }
 
 void trieFree (trie_t *t)
