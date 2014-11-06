@@ -11,7 +11,7 @@ complex_cmd_test: complex_cmd_test.c complex_cmd.c
 
 dotnoise_test: dotnoise_test.c dotnoise.c
 
-pipeline_test: pipeline_test.c pipeline.c
+pipeline_test: pipeline_test.c pipeline.c complex_cmd.c trie.c
 
 trie_test: trie_test.c trie.c
 

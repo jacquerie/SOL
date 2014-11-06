@@ -14,7 +14,8 @@ typedef struct pipeline {
 	trie_t *data_trie;
 } pipeline;
 
-pipeline* pipelineInit (void);
+pipeline* pipelineInit (complex_cmd*, DIR*, DIR*, trie_t*, trie_t*);
+int pipelineCheck (pipeline*);
 void pipelineExecute (pipeline*);
 void pipelineFree (pipeline*);
 

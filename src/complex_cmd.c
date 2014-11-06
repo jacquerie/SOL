@@ -66,10 +66,11 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 	token = strtok(cpy, " ");
 	while (token) {
 		argc++;
+
 		token = strtok(NULL, " ");
 	}
 
-	scmd->argc = argc;
+	scmd->argc = argc - 1;
 	scmd->argv = malloc(argc * sizeof(char*));
 
 	memcpy(cpy, str, length);
