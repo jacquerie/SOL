@@ -5,7 +5,7 @@
 #include "complex_cmd.h"
 
 simple_cmd* simpleCmdInit (void);
-void simpleCmdParse(simple_cmd*, char*);
+void simpleCmdParse (simple_cmd*, char*);
 void simpleCmdFree (simple_cmd*);
 
 complex_cmd* complexCmdInit (void)
