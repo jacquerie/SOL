@@ -6,6 +6,7 @@
 #include "complex_cmd.h"
 #include "dotnoise.h"
 #include "interactive.h"
+#include "pipeline.h"
 #include "trie.h"
 
 static trie_t *exe_trie;
@@ -75,6 +76,7 @@ void deboshInteractive (DIR* exe_path, DIR* data_path)
 {
 	char *line;
 	struct complex_cmd *ccmd;
+	struct pipeline *pipeline;
 
 	exe_trie = trieInit();
 	trieLoad(exe_trie, exe_path);
@@ -95,10 +97,12 @@ void deboshInteractive (DIR* exe_path, DIR* data_path)
 		}
 	}
 
-	complexCmdFree(ccmd);
-	trieFree(exe_trie);
-	trieFree(data_trie);
+	pipeline = pipelineInit(ccmd, exe_path, data_path, exe_trie, data_trie);
 
-	closedir(exe_path);
-	closedir(data_path);
+	if (pipelineCheck(pipeline))
+		printf("VALID\n");
+	else
+		printf("INVALID\n");
+
+	pipelineFree(pipeline);
 }
