@@ -9,7 +9,6 @@ typedef union trie_t {
 } trie_t;
 
 trie_t* trieInit (void);
-void trieAdd (trie_t*, const char*);
 int trieExists (trie_t*, const char*);
 void trieLoad (trie_t*, DIR *path);
 void trieFree (trie_t*);

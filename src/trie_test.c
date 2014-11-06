@@ -39,41 +39,16 @@ void trieComplete (trie_t *t, const char *prefix)
 
 int main (void)
 {
-	DIR* bin = opendir("/bin");
+	DIR *bin_path = opendir("/bin");
+
 	trie_t *t = trieInit();
-	struct dirent *ent;
+	trieLoad(t, bin_path);
 
-	while ((ent = readdir(bin)))
-		if (ent->d_name[0] == 'n')
-			printf("%s\n", ent->d_name);
-	printf("\n");
-
-	trieAdd(t, "nano");
-	trieAdd(t, "nc");
-	trieAdd(t, "nc.traditional");
-	trieAdd(t, "netcat");
-	trieAdd(t, "netstat");
-	trieAdd(t, "nisdomainname");
-	trieAdd(t, "ntfs-3g");
-	trieAdd(t, "ntfs-3g.probe");
-	trieAdd(t, "ntfs-3g.secaudit");
-	trieAdd(t, "ntfs-3g.usermap");
-	trieAdd(t, "ntfscat");
-	trieAdd(t, "ntfsck");
-	trieAdd(t, "ntfscluster");
-	trieAdd(t, "ntfscmp");
-	trieAdd(t, "ntfsdump_logfile");
-	trieAdd(t, "ntfsfix");
-	trieAdd(t, "ntfsinfo");
-	trieAdd(t, "ntfsls");
-	trieAdd(t, "ntfsmftalloc");
-	trieAdd(t, "ntfsmove");
-	trieAdd(t, "ntfstruncate");
-	trieAdd(t, "ntfswipe");
-
-	trieComplete(t, "n");
+	trieComplete(t, "l");
 
 	trieFree(t);
+
+	closedir(bin_path);
 
 	return 0;
 }
