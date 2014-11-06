@@ -4,6 +4,7 @@
 
 #include "batch.h"
 #include "complex_cmd.h"
+#include "pipeline.h"
 #include "trie.h"
 
 #define BATCH_MAX_LINE 4096
@@ -15,6 +16,7 @@ void deboshBatch (DIR* exe_path, DIR* data_path, FILE* batch_file)
 {
 	char line[BATCH_MAX_LINE];
 	struct complex_cmd *ccmd;
+	struct pipeline *pipeline;
 
 	exe_trie = trieInit();
 	trieLoad(exe_trie, exe_path);
@@ -35,12 +37,15 @@ void deboshBatch (DIR* exe_path, DIR* data_path, FILE* batch_file)
 		}
 	}
 
-	complexCmdFree(ccmd);
-	trieFree(exe_trie);
-	trieFree(data_trie);
+	pipeline = pipelineInit(ccmd, exe_path, data_path, exe_trie, data_trie);
 
-	closedir(exe_path);
-	closedir(data_path);
+	if (pipelineCheck(pipeline))
+		printf("VALID\n");
+	else
+		printf("INVALID\n");
+
+	pipelineFree(pipeline);
+
 	fclose(batch_file);
 }
 
