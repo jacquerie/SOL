@@ -75,15 +75,12 @@ void deboshInteractive (DIR* exe_path, DIR* data_path)
 {
 	char *line;
 	struct complex_cmd *ccmd;
-	struct dirent *ent;
 
 	exe_trie = trieInit();
-	while ((ent = readdir(exe_path)))
-		trieAdd(exe_trie, ent->d_name);
+	trieLoad(exe_trie, exe_path);
 
 	data_trie = trieInit();
-	while ((ent = readdir(data_path)))
-		trieAdd(data_trie, ent->d_name);
+	trieLoad(data_trie, data_path);
 
 	dotnoiseSetCompletionCallback(completion);
 
