@@ -1,9 +1,13 @@
 CFLAGS=-Wall -pedantic -g
+EXE=debosh complex_cmd_test dotnoise_test pipeline_test trie_test
 
-all: debosh complex_cmd_test dotnoise_test pipeline_test trie_test
+all: $(EXE)
 
 clean:
-	rm -f debosh complex_cmd_test dotnoise_test pipeline_test trie_test
+	rm -f $(EXE)
+
+test:
+	./debosh /usr/bin . valid.debosh
 
 debosh: batch.c complex_cmd.c debosh.c dotnoise.c interactive.c trie.c pipeline.c
 
@@ -15,5 +19,5 @@ pipeline_test: pipeline_test.c pipeline.c complex_cmd.c trie.c
 
 trie_test: trie_test.c trie.c
 
-.PHONY: all clean
+.PHONY: all clean test
 
