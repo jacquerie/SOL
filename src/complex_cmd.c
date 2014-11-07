@@ -19,17 +19,16 @@ complex_cmd* complexCmdInit (void)
 
 void complexCmdAppend (complex_cmd *ccmd, char *str)
 {
-	size_t i;
+	int i;
 
 	if (strlen(str) == 0)
 		return;
 
-	complex_cmd *tmp = ccmd;
-
 	simple_cmd *scmd = simpleCmdInit();
 	simpleCmdParse(scmd, str);
 
-	for (i = 0; i < ccmd->length; i++)
+	complex_cmd *tmp = ccmd;
+	for (i = 0; i < ccmd->length - 1; i++)
 		tmp = tmp->next;
 
 	if (tmp->scmd) {
@@ -41,6 +40,8 @@ void complexCmdAppend (complex_cmd *ccmd, char *str)
 		ccmd->length++;
 	} else {
 		tmp->scmd = scmd;
+
+		ccmd->length = 1;
 	}
 }
 
