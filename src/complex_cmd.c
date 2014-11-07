@@ -20,14 +20,16 @@ complex_cmd* complexCmdInit (void)
 void complexCmdAppend (complex_cmd *ccmd, char *str)
 {
 	int i;
+	simple_cmd *scmd;
+	complex_cmd *tmp;
 
 	if (strlen(str) == 0)
 		return;
 
-	simple_cmd *scmd = simpleCmdInit();
+	scmd = simpleCmdInit();
 	simpleCmdParse(scmd, str);
 
-	complex_cmd *tmp = ccmd;
+	tmp = ccmd;
 	for (i = 0; i < ccmd->length - 1; i++)
 		tmp = tmp->next;
 

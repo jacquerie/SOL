@@ -62,10 +62,11 @@ void spawn_proc (int ifd, int ofd, simple_cmd* scmd)
 void pipelineExecute (pipeline *pipeline)
 {
 	int i, ifd, fd[2];
+	complex_cmd *tmp;
 
 	ifd = STDIN_FILENO;
 
-	complex_cmd *tmp = pipeline->ccmd;
+	tmp = pipeline->ccmd;
 	for (i = 0; i < pipeline->ccmd->length - 1; i++) {
 		pipe(fd);
 		spawn_proc(ifd, fd[1], tmp->scmd);
