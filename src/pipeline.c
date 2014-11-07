@@ -29,7 +29,7 @@ int pipelineCheck (pipeline *pipeline)
 			if (!trieExists(pipeline->exe_trie, tmp->scmd->exe))
 				result = FALSE;
 
-			for (j = 0; j < tmp->scmd->argc; j++)
+			for (j = 1; j < tmp->scmd->argc; j++)
 				if (!trieExists(pipeline->data_trie, tmp->scmd->argv[j]))
 					result = FALSE;
 		}
