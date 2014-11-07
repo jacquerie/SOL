@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "bool.h"
 #include "pipeline.h"
@@ -19,8 +20,7 @@ pipeline* pipelineInit (complex_cmd *ccmd, DIR *exe_path, DIR *data_path, trie_t
 
 int pipelineCheck (pipeline *pipeline)
 {
-	int result = TRUE;
-	size_t i, j;
+	int result = TRUE, i, j;
 
 	complex_cmd *tmp = pipeline->ccmd;
 	for (i = 0; i < pipeline->ccmd->length; i++) {
@@ -29,7 +29,7 @@ int pipelineCheck (pipeline *pipeline)
 				result = FALSE;
 
 			for (j = 0; j < tmp->scmd->argc; j++)
-				if (!trieExists(pipeline->data_trie, tmp->scmd->argv[i]))
+				if (!trieExists(pipeline->data_trie, tmp->scmd->argv[j]))
 					result = FALSE;
 		}
 
@@ -39,9 +39,45 @@ int pipelineCheck (pipeline *pipeline)
 	return result;
 }
 
+void spawn_proc (int ifd, int ofd, simple_cmd* scmd)
+{
+	pid_t pid;
+
+	if ((pid = fork()) == 0) {
+		if (ifd != STDIN_FILENO) {
+			dup2(ifd, STDIN_FILENO);
+			close(ifd);
+		}
+
+		if (ofd != STDOUT_FILENO) {
+			dup2(ofd, STDOUT_FILENO);
+			close(ofd);
+		}
+
+		execvp(scmd->exe, scmd->argv);
+	}
+}
+
 void pipelineExecute (pipeline *pipeline)
 {
-	/* TODO */
+	int i, ifd, fd[2];
+
+	ifd = STDIN_FILENO;
+
+	complex_cmd *tmp = pipeline->ccmd;
+	for (i = 0; i < pipeline->ccmd->length - 1; i++) {
+		pipe(fd);
+		spawn_proc(ifd, fd[1], tmp->scmd);
+		close(fd[1]);
+		ifd = fd[0];
+
+		tmp = tmp->next;
+	}
+
+	if (ifd != STDIN_FILENO)
+		dup2(ifd, STDIN_FILENO);
+
+	execvp(tmp->scmd->exe, tmp->scmd->argv);
 }
 
 void pipelineFree (pipeline *pipeline)
