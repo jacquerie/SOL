@@ -72,17 +72,28 @@ void completion (const char *buffer, dotnoiseCompletions *dc)
 	}
 }
 
-void deboshInteractive (DIR* exe_path, DIR* data_path)
+void deboshInteractive (char *exe_path, char *data_path)
 {
 	char *line;
+	DIR *exe_dir, *data_dir;
 	struct complex_cmd *ccmd;
 	struct pipeline *pipeline;
 
+	if ((exe_dir = opendir(exe_path)) == NULL) {
+		perror(exe_path);
+		exit(EXIT_FAILURE);
+	}
+
 	exe_trie = trieInit();
-	trieLoad(exe_trie, exe_path);
+	trieLoad(exe_trie, exe_dir);
+
+	if ((data_dir = opendir(data_path)) == NULL) {
+		perror(data_path);
+		exit(EXIT_FAILURE);
+	}
 
 	data_trie = trieInit();
-	trieLoad(data_trie, data_path);
+	trieLoad(data_trie, data_dir);
 
 	dotnoiseSetCompletionCallback(completion);
 
@@ -105,4 +116,7 @@ void deboshInteractive (DIR* exe_path, DIR* data_path)
 		printf("INVALID\n");
 
 	pipelineFree(pipeline);
+
+	closedir(exe_dir);
+	closedir(data_dir);
 }

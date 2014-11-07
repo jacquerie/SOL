@@ -1,6 +1,8 @@
 #ifndef __TRIE_H
 #define __TRIE_H
 
+#include <dirent.h>
+
 #define TRIE_NODE_SIZE 128
 
 typedef union trie_t {

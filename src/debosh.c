@@ -1,39 +1,23 @@
-#include <dirent.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 
 #include "batch.h"
 #include "interactive.h"
 
 int main (int argc, char *argv[])
 {
-	DIR *exe_path;
-	DIR *data_path;
 	FILE *batch_file;
 
-	if (argc == 3 || argc == 4) {
-		if ((exe_path = opendir(argv[1])) == NULL) {
-			perror(argv[1]);
+	if (argc == 4) {
+		if ((batch_file = fopen(argv[3], "r")) == NULL) {
+			perror(argv[3]);
 			exit(EXIT_FAILURE);
 		}
 
-		if ((data_path = opendir(argv[2])) == NULL) {
-			perror(argv[2]);
-			exit(EXIT_FAILURE);
-		}
-
-		if (argc == 4) {
-			if ((batch_file = fopen(argv[3], "r")) == NULL) {
-				perror(argv[3]);
-				exit(EXIT_FAILURE);
-			}
-
-			deboshBatch(exe_path, data_path, batch_file);
-		} else {
-			deboshInteractive(exe_path, data_path);
-		}
+		deboshBatch(argv[1], argv[2], batch_file);
+	} else if (argc == 3) {
+		deboshInteractive(argv[1], argv[2]);
 	} else {
 		fprintf(stderr, "Usage: %s exePath dataPath [batchFile]\n", argv[0]);
 		exit(EXIT_FAILURE);

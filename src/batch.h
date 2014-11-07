@@ -1,7 +1,7 @@
 #ifndef __BATCH_H
 #define __BATCH_H
 
-void deboshBatch (DIR*, DIR*, FILE*);
+void deboshBatch (char*, char*, FILE*);
 
 #endif
 

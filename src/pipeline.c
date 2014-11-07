@@ -5,7 +5,7 @@
 #include "bool.h"
 #include "pipeline.h"
 
-pipeline* pipelineInit (complex_cmd *ccmd, DIR *exe_path, DIR *data_path, trie_t *exe_trie, trie_t *data_trie)
+pipeline* pipelineInit (complex_cmd *ccmd, char *exe_path, char *data_path, trie_t *exe_trie, trie_t *data_trie)
 {
 	pipeline *result = calloc(1, sizeof(struct pipeline));
 
@@ -85,9 +85,6 @@ void pipelineFree (pipeline *pipeline)
 	complexCmdFree(pipeline->ccmd);
 	trieFree(pipeline->exe_trie);
 	trieFree(pipeline->data_trie);
-
-	closedir(pipeline->exe_path);
-	closedir(pipeline->data_path);
 
 	free(pipeline);
 }
