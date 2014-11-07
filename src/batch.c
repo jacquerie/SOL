@@ -40,7 +40,7 @@ void deboshBatch (DIR* exe_path, DIR* data_path, FILE* batch_file)
 	pipeline = pipelineInit(ccmd, exe_path, data_path, exe_trie, data_trie);
 
 	if (pipelineCheck(pipeline))
-		printf("VALID\n");
+		pipelineExecute(pipeline);
 	else
 		printf("INVALID\n");
 
