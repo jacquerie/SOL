@@ -10,26 +10,35 @@ void simpleCmdFree (simple_cmd*);
 
 complex_cmd* complexCmdInit (void)
 {
-	return calloc(1, sizeof(complex_cmd));
+	complex_cmd *result = calloc(1, sizeof(complex_cmd));
+
+	result->length = 0;
+
+	return result;
 }
 
 void complexCmdAppend (complex_cmd *ccmd, char *str)
 {
+	size_t i;
+
 	if (strlen(str) == 0)
 		return;
 
 	complex_cmd *tmp = ccmd;
-	simple_cmd *scmd = simpleCmdInit();
 
+	simple_cmd *scmd = simpleCmdInit();
 	simpleCmdParse(scmd, str);
 
-	while (tmp->scmd && tmp->next)
+	for (i = 0; i < ccmd->length; i++)
 		tmp = tmp->next;
 
 	if (tmp->scmd) {
 		complex_cmd *new = complexCmdInit();
+
 		new->scmd = scmd;
 		tmp->next = new;
+
+		ccmd->length++;
 	} else {
 		tmp->scmd = scmd;
 	}

@@ -12,6 +12,7 @@ typedef struct simple_cmd {
 typedef struct complex_cmd {
 	struct simple_cmd *scmd;
 	struct complex_cmd *next;
+	size_t length;
 } complex_cmd;
 
 complex_cmd* complexCmdInit (void);
