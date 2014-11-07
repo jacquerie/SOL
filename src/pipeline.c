@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "bool.h"
@@ -77,7 +78,15 @@ void pipelineExecute (pipeline *pipeline)
 	if (ifd != STDIN_FILENO)
 		dup2(ifd, STDIN_FILENO);
 
-	execvp(tmp->scmd->exe, tmp->scmd->argv);
+	size_t exe_path_length = strlen(pipeline->exe_path);
+	size_t exe_length = strlen(tmp->scmd->exe);
+	char *path = malloc(exe_path_length + exe_length + 1 + 1);
+	memcpy(path, pipeline->exe_path, exe_path_length);
+	path[exe_path_length] = '/';
+	memcpy(path + exe_path_length + 1, tmp->scmd->exe,exe_length);
+	path[exe_path_length + exe_length + 1] = '\0';
+
+	execv(path, tmp->scmd->argv);
 }
 
 void pipelineFree (pipeline *pipeline)
