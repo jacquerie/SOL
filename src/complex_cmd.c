@@ -82,6 +82,7 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 
 	scmd->argc = argc - 1;
 	scmd->argv = malloc(argc * sizeof(char*));
+	scmd->argv[scmd->argc] = NULL;
 
 	memcpy(cpy, str, length);
 	cpy[length] = '\0';
