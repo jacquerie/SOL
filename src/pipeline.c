@@ -83,7 +83,7 @@ void pipelineExecute (pipeline *pipeline)
 	char *path = malloc(exe_path_length + exe_length + 1 + 1);
 	memcpy(path, pipeline->exe_path, exe_path_length);
 	path[exe_path_length] = '/';
-	memcpy(path + exe_path_length + 1, tmp->scmd->exe,exe_length);
+	memcpy(path + exe_path_length + 1, tmp->scmd->exe, exe_length);
 	path[exe_path_length + exe_length + 1] = '\0';
 
 	execv(path, tmp->scmd->argv);
