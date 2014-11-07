@@ -5,15 +5,14 @@
 int main (void)
 {
 	complex_cmd *ccmd;
-	DIR *exe_path = opendir("/bin");
-	DIR *data_path = opendir("/var/log");
+	DIR *exe_path = opendir("/usr/bin");
+	DIR *data_path = opendir("/var");
 	trie_t *exe_trie, *data_trie;
 	pipeline *pipeline;
 
 	ccmd = complexCmdInit();
-	complexCmdAppend(ccmd, "cat");
-	complexCmdAppend(ccmd, "ls");
-	complexCmdAppend(ccmd, "mv");
+	complexCmdAppend(ccmd, "last");
+	complexCmdAppend(ccmd, "sort");
 
 	exe_trie = trieInit();
 	trieLoad(exe_trie, exe_path);
@@ -24,11 +23,7 @@ int main (void)
 	pipeline = pipelineInit(ccmd, exe_path, data_path, exe_trie, data_trie);
 
 	if (pipelineCheck(pipeline))
-		printf("VALID\n");
-	else
-		printf("INVALID\n");
-
-	pipelineExecute(pipeline);
+		pipelineExecute(pipeline);
 
 	pipelineFree(pipeline);
 
