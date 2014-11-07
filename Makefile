@@ -1,4 +1,4 @@
-all: pdf
+all: tar
 
 clean:
 	rm -f relazione.aux relazione.log relazione.out
@@ -6,4 +6,7 @@ clean:
 pdf:
 	pdflatex -shell-escape tex/relazione.tex
 
-.PHONY: all clean pdf
+tar:
+	tar czvf jnotarstefano.tar.gz src/*
+
+.PHONY: all clean pdf tar
