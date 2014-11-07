@@ -110,10 +110,12 @@ void deboshInteractive (char *exe_path, char *data_path)
 
 	pipeline = pipelineInit(ccmd, exe_path, data_path, exe_trie, data_trie);
 
-	if (pipelineCheck(pipeline))
+	if (pipelineCheck(pipeline)) {
+		pipelineUpdate(pipeline);
 		pipelineExecute(pipeline);
-	else
+	} else {
 		printf("INVALID\n");
+	}
 
 	pipelineFree(pipeline);
 

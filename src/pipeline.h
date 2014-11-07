@@ -15,6 +15,7 @@ typedef struct pipeline {
 pipeline* pipelineInit (complex_cmd*, char*, char*, trie_t*, trie_t*);
 int pipelineCheck (pipeline*);
 void pipelineExecute (pipeline*);
+void pipelineUpdate (pipeline*);
 void pipelineFree (pipeline*);
 
 #endif

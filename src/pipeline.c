@@ -78,15 +78,57 @@ void pipelineExecute (pipeline *pipeline)
 	if (ifd != STDIN_FILENO)
 		dup2(ifd, STDIN_FILENO);
 
-	size_t exe_path_length = strlen(pipeline->exe_path);
-	size_t exe_length = strlen(tmp->scmd->exe);
-	char *path = malloc(exe_path_length + exe_length + 1 + 1);
-	memcpy(path, pipeline->exe_path, exe_path_length);
-	path[exe_path_length] = '/';
-	memcpy(path + exe_path_length + 1, tmp->scmd->exe, exe_length);
-	path[exe_path_length + exe_length + 1] = '\0';
+	execv(tmp->scmd->exe, tmp->scmd->argv);
+}
 
-	execv(path, tmp->scmd->argv);
+void pipelineUpdate (pipeline *pipeline)
+{
+	int i, j;
+
+	complex_cmd *tmp = pipeline->ccmd;
+	for (i = 0; i < pipeline->ccmd->length; i++) {
+		if (tmp->scmd) {
+			size_t exe_path_length = strlen(pipeline->exe_path);
+			size_t data_path_length = strlen(pipeline->data_path);
+			size_t exe_length = strlen(tmp->scmd->exe);
+
+			char *cpy = malloc(exe_length + 1);
+			memcpy(cpy, tmp->scmd->exe, exe_length);
+			cpy[exe_length] = '\0';
+
+			tmp->scmd->exe = realloc(tmp->scmd->exe, exe_path_length + exe_length + 1 + 1);
+			memcpy(tmp->scmd->exe, pipeline->exe_path, exe_path_length);
+			tmp->scmd->exe[exe_path_length] = '/';
+			memcpy(tmp->scmd->exe + exe_path_length + 1, cpy, exe_length);
+			tmp->scmd->exe[exe_path_length + exe_length + 1] = '\0';
+
+			tmp->scmd->argv[0] = realloc(tmp->scmd->argv[0], exe_path_length + exe_length + 1 + 1);
+			memcpy(tmp->scmd->argv[0], pipeline->exe_path, exe_path_length);
+			(tmp->scmd->argv[0])[exe_path_length] = '/';
+			memcpy(tmp->scmd->argv[0] + exe_path_length + 1, cpy, exe_length);
+			(tmp->scmd->argv[0])[exe_path_length + exe_length + 1] = '\0';
+
+			free(cpy);
+
+			for (j = 1; j < tmp->scmd->argc; j++) {
+				size_t arg_length = strlen(tmp->scmd->argv[j]);
+
+				char *cpy = malloc(arg_length + 1);
+				memcpy(cpy, tmp->scmd->argv[j], arg_length);
+				cpy[arg_length] = '\0';
+
+				tmp->scmd->argv[j] = realloc(tmp->scmd->argv[j], data_path_length + arg_length + 1 + 1);
+				memcpy(tmp->scmd->argv[j], pipeline->data_path, data_path_length);
+				(tmp->scmd->argv[j])[data_path_length] = '/';
+				memcpy(tmp->scmd->argv[j] + data_path_length + 1, cpy, arg_length);
+				(tmp->scmd->argv[j])[data_path_length + arg_length + 1] = '\0';
+
+				free(cpy);
+			}
+		}
+
+		tmp = tmp->next;
+	}
 }
 
 void pipelineFree (pipeline *pipeline)
