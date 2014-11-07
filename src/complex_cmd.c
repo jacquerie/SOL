@@ -80,7 +80,7 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 		token = strtok(NULL, " ");
 	}
 
-	scmd->argc = argc - 1;
+	scmd->argc = argc;
 	scmd->argv = malloc(argc * sizeof(char*));
 	scmd->argv[scmd->argc] = NULL;
 
@@ -88,11 +88,18 @@ void simpleCmdParse (simple_cmd *scmd, char *str)
 	cpy[length] = '\0';
 
 	token = strtok(cpy, " ");
-	exe_length = strlen(token);
+
+	exe_length = arg_length = strlen(token);
 	exe = malloc(exe_length + 1);
 	memcpy(exe, token, exe_length);
 	exe[exe_length] = '\0';
 	scmd->exe = exe;
+
+	arg = malloc(arg_length + 1);
+	memcpy(arg, token, arg_length);
+	arg[arg_length] = '\0';
+	scmd->argv[i] = arg;
+	i++;
 
 	token = strtok(NULL, " ");
 	while (token) {
