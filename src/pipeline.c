@@ -20,28 +20,20 @@ pipeline* pipelineInit (complex_cmd *ccmd, DIR *exe_path, DIR *data_path, trie_t
 int pipelineCheck (pipeline *pipeline)
 {
 	int result = TRUE;
-	size_t i;
+	size_t i, j;
 
 	complex_cmd *tmp = pipeline->ccmd;
-
-	while (tmp->next && tmp->scmd) {
-		if (!trieExists(pipeline->exe_trie, tmp->scmd->exe))
-			result = FALSE;
-
-		for (i = 0; i < tmp->scmd->argc; i++)
-			if (!trieExists(pipeline->data_trie, tmp->scmd->argv[i]))
+	for (i = 0; i < pipeline->ccmd->length; i++) {
+		if (tmp->scmd) {
+			if (!trieExists(pipeline->exe_trie, tmp->scmd->exe))
 				result = FALSE;
+
+			for (j = 0; j < tmp->scmd->argc; j++)
+				if (!trieExists(pipeline->data_trie, tmp->scmd->argv[i]))
+					result = FALSE;
+		}
 
 		tmp = tmp->next;
-	}
-
-	if (tmp->scmd) {
-		if (!trieExists(pipeline->exe_trie, tmp->scmd->exe))
-			result = FALSE;
-
-		for (i = 0; i < tmp->scmd->argc; i++)
-			if (!trieExists(pipeline->data_trie, tmp->scmd->argv[i]))
-				result = FALSE;
 	}
 
 	return result;
